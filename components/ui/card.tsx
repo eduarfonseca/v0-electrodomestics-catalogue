@@ -234,8 +234,9 @@ function WhatsAppContactButton({
     const phone = sanitizePhone(rawNumber);
     const url = buildUrl();
     const productLabel = productId;
+    const titleLabel = title ?? "";
     const brandLabel = text ?? "";
-    const message = `Hola, estoy interesado en ${productLabel}${brandLabel ? ` - ${brandLabel}` : ""}. ${url}`;
+    const message = `Hola, estoy interesado en ${titleLabel}${brandLabel ? ` - ${brandLabel}` : ""}. ${url}`;
     const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     trackEvent("whatsapp_number_selected", { productId, phone, method: "wa.me" });
     window.open(waUrl, "_blank");
