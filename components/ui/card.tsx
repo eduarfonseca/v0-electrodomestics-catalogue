@@ -105,7 +105,7 @@ function ViewButton({ productId }: { productId: string }) {
     <Link
       href={href}
       onClick={handleClick}
-      className={`${BUTTON_SIZE_CLASSES} bg-primary/5 hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-offset-1 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+      className={`${BUTTON_SIZE_CLASSES} bg-primary/5 hover:bg-muted/80 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
       aria-label="Ver producto"
       title="Ver producto"
     >
@@ -189,7 +189,7 @@ function ShareButton({
       type="button"
       onClick={handleShare}
       aria-label="Compartir producto"
-      className={`${BUTTON_SIZE_CLASSES} bg-primary/5 hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-offset-1 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+      className={`${BUTTON_SIZE_CLASSES} bg-primary/5 hover:bg-muted/80 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
       title="Compartir"
     >
       <Share2 className="h-5 w-5 sm:h-5 sm:w-5" />
@@ -361,7 +361,7 @@ function WhatsAppContactButton({
         aria-expanded={open}
         aria-label="Contactar por WhatsApp"
         title="Contactar por WhatsApp"
-        className={`${BUTTON_SIZE_CLASSES} bg-primary/5 hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-offset-1 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+        className={`${BUTTON_SIZE_CLASSES} bg-primary/5 hover:bg-muted/80 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
         onMouseDown={(e) => e.preventDefault()}
       >
         <span className="h-5 w-5 block">{WhatsAppSVG}</span>
