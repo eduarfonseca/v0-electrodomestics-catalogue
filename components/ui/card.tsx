@@ -371,7 +371,7 @@ function WhatsAppContactButton({
     </>
   );
 }
-
+ 
 /* --------------------
    CardFooter: show Share then WhatsApp at right (icon-only)
    -------------------- */

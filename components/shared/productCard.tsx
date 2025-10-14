@@ -110,7 +110,6 @@ export default function ProductCard({
           </div>
         </CardFooter>
 
-
       ) : (
         <CardFooter shareProductId={product.id} shareProductTitle={product.nombre} shareProductText={product.marca} viewProductId={product.id} className="pt-2">
         </CardFooter>

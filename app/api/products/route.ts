@@ -14,6 +14,7 @@ const ALLOWED_COLUMNS = [
   "imagenURL",
 ] as const
 
+
 type AllowedKey = (typeof ALLOWED_COLUMNS)[number]
 
 function cleanAndMapPayload(raw: any) {

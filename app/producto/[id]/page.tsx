@@ -138,6 +138,7 @@ export default async function ProductoPage({ params }: { params: { id: string } 
                 {producto.marca} • {producto.categoria}
               </p>
             </div>
+            
 
             <div className="flex items-center gap-3">
               <ShareButton productId={String(producto.id)} title={producto.nombre} text={producto.marca} />

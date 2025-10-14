@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { useProducts } from "@/contexts/products-context"
 import { Badge } from "@/components/ui/badge"
 import type { Electrodomestico } from "@/contexts/products-context"
-
+ 
 type NuevoElectrodomesticoState = {
   nombre: string
   marca: string

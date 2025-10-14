@@ -11,7 +11,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], display: "swap", variable: "--font-space-grotesk" })
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: "--font-dm-sans" })
 
-
 const SITE_URL = "https://v0-electrodomesticoscatalogue.vercel.app/"
 const OG_IMAGE =
   "https://yzjvywcplllhsqqcfsyb.supabase.co/storage/v1/object/public/Fotos%20Catalogo/Presentation%20Image.jpg"

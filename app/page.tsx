@@ -96,7 +96,6 @@ export default function HomePage() {
           setBrand={setBrandSelected}
         />
 
-
         <ProductGrid items={electrodomesticosFiltrados} onItemClick={handleProductClick} animKey={animKey} />
 
         {electrodomesticosFiltrados.length === 0 && (

@@ -2,6 +2,7 @@
 export default function Loading() {
   const cards = Array.from({ length: 8 })
 
+  
   return (
     <main className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-8">

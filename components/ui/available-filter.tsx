@@ -10,6 +10,7 @@ type Props = {
   className?: string
 }
 
+
 export default function AvailableFilter({ active, onChange, className = "" }: Props) {
   return (
     <div className={`flex items-center gap-2 h-10 ${className}`}>

@@ -1,6 +1,5 @@
 // components/ui/tooltip.tsx
 "use client";
-
 import React from "react";
 
 interface TooltipProps {

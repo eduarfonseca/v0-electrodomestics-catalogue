@@ -148,7 +148,7 @@ html {
 .btn-add:active {
   transform: translateY(0);
 }
-
+ 
 /* foco accesible */
 .btn-add:focus-visible {
   outline: none;

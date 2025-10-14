@@ -16,6 +16,7 @@ export default function LoadingProductoPage() {
               <div className="h-6 w-20 rounded-md bg-gray-200 dark:bg-gray-700 animate-pulse" />
             </div>
           </div>
+          
 
           <div className="flex items-start gap-3">
             <div className="w-28 h-28 rounded-md bg-gray-100 dark:bg-gray-800 animate-pulse flex-shrink-0" />

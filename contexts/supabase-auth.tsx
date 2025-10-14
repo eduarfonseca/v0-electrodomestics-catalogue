@@ -1,6 +1,6 @@
 // contexts/supabase-auth.tsx
 "use client";
-
+ 
 import React, { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/lib/supabase-client";
 import type { Session, User } from "@supabase/supabase-js";

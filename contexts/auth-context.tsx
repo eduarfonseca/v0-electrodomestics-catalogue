@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
-
+ 
   useEffect(() => {
     // Verificar si el usuario está autenticado al cargar
     const authStatus = localStorage.getItem("admin-authenticated")

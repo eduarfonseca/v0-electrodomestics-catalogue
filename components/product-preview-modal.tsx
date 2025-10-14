@@ -1,11 +1,10 @@
 "use client"
-
+ 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import type { Electrodomestico } from "@/contexts/products-context"
 import Image from "next/image"
-import { ShareButton } from "@/components/ui/card" // import del ShareButton creado arriba
-import { Fragment } from "react"
+
 
 interface ProductPreviewModalProps {
   product: Electrodomestico | null

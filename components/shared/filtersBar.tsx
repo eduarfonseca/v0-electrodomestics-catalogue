@@ -95,6 +95,7 @@ export default function FiltersBar({
                                 isMobile={isMobile}
                             />
                         </div>
+                        
 
                         <div className="flex-shrink-0">
                             <SortByName onActiveChange={(a) => onNameActiveChange?.(a)} />
