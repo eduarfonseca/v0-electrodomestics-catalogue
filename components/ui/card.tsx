@@ -142,8 +142,8 @@ function ShareButton({
     e.preventDefault();
 
     const url = buildUrl();
-    const shareTitle = title ?? "Ver producto";
-    const shareText = text ? `${shareTitle} — ${text}` : `Mira este producto en el catálogo: ${shareTitle}`;
+    const shareTitle = title;
+    const shareText = text ? `${shareTitle} — ${text}` : `${shareTitle}`;
 
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
@@ -233,7 +233,7 @@ function WhatsAppContactButton({
   const handleChoose = (rawNumber: string) => {
     const phone = sanitizePhone(rawNumber);
     const url = buildUrl();
-    const productLabel = title ?? productId;
+    const productLabel = productId;
     const brandLabel = text ?? "";
     const message = `Hola, estoy interesado en ${productLabel}${brandLabel ? ` - ${brandLabel}` : ""}. ${url}`;
     const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
