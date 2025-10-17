@@ -1,7 +1,8 @@
-// app/page.tsx
+// app/page.tsx (client)
 "use client"
 
 import React, { useEffect, useState } from "react"
+import Loading from "./loading" // <-- ajustar si tu archivo está en otra ruta
 import { ThemeToggle } from "@/components/theme-toggle"
 import ContactBubble from "@/components/contact-bubble"
 import { ProductPreviewModal } from "@/components/product-preview-modal"
@@ -16,7 +17,7 @@ import CatalogHeader from "@/components/catalog-header"
 import StoreInfo from "@/components/store-info"
 
 export default function HomePage() {
-  const { electrodomesticos } = useProducts()
+  const { electrodomesticos, isLoading } = useProducts() // <-- ya traemos isLoading
   const [busqueda, setBusqueda] = useState("")
   const [selectedProduct, setSelectedProduct] = useState<Electrodomestico | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -34,6 +35,11 @@ export default function HomePage() {
     window.addEventListener("resize", check)
     return () => window.removeEventListener("resize", check)
   }, [])
+
+  // <-- Aquí mostramos el skeleton mientras isLoading === true
+  if (isLoading) {
+    return <Loading />
+  }
 
   const animKey = `${busqueda}-${nameSortActive}-${priceSortActive}-${availableOnly}`
 
