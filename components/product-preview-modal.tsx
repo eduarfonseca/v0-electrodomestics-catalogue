@@ -1,5 +1,5 @@
 "use client"
- 
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import type { Electrodomestico } from "@/contexts/products-context"
@@ -33,13 +33,10 @@ export function ProductPreviewModal({ product, isOpen, onClose }: ProductPreview
             </div>
 
             <div className="flex items-center gap-2">
-              <Badge variant="secondary" className="text-sm hover: bg-orange-100 border border-orange-200 text-orange-800">
+              <Badge variant="brand" className="text-sm">
                 {product.marca}
               </Badge>
-              <Badge variant={product.disponible ? "default" : "secondary"} className={`text-sm ${product.disponible
-                ? "bg-green-100 text-green-800 hover:bg-green-300 border border-green-400"
-                : "bg-red-50 text-red-600 hover:bg-red-100 border border-red-200"
-                }`}>
+              <Badge variant={product.disponible ? "available" : "unavailable"} className="text-sm">
                 {product.disponible ? "Disponible" : "Agotado"}
               </Badge>
             </div>

@@ -66,8 +66,8 @@ export default function SearchBar({
         onBlur={handleBlur}
         autoFocus={autoFocus}
         className={
-          "pl-10 w-full bg-card/50 dark:bg-transparent border-transparent rounded-lg outline-none transition-all duration-200 placeholder:text-muted-foreground text-foreground " +
-          "ring-1 ring-gray-200 dark:ring-slate-700 focus:ring-2 focus:ring-gray-300 dark:focus:ring-slate-600 " +
+          "pl-10 w-full bg-card/50 dark:bg-transparent outline-transparent rounded-md outline-none transition-all duration-200 placeholder:text-muted-foreground text-foreground " +
+          "ring-1 ring-gray-200 dark:ring-none-700 focus:ring-2 focus:ring-gray-300 dark:focus:ring-slate-600 " +
           "shadow-sm focus:shadow-md"
         }
       />

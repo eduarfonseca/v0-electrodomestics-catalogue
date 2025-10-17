@@ -170,3 +170,13 @@ html {
 .dark .btn-add:focus-visible {
   box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
 }
+/* components/helpers for StoreInfo */
+@layer components {
+  .contact-chip {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-md;
+  }
+  .focus-ring-theme:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-ring, rgba(34,197,94,0.12)) 24%, transparent);
+  }
+}

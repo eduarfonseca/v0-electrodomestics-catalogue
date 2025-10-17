@@ -12,6 +12,8 @@ import type { Electrodomestico } from "@/contexts/products-context"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Settings } from "lucide-react"
+import CatalogHeader from "@/components/catalog-header"
+import StoreInfo from "@/components/store-info"
 
 export default function HomePage() {
   const { electrodomesticos } = useProducts()
@@ -33,8 +35,6 @@ export default function HomePage() {
     return () => window.removeEventListener("resize", check)
   }, [])
 
-  const hasSearchText = busqueda.trim().length > 0
-  const anySortActive = nameSortActive || priceSortActive || availableOnly
   const animKey = `${busqueda}-${nameSortActive}-${priceSortActive}-${availableOnly}`
 
   const electrodomesticosFiltrados = electrodomesticos
@@ -58,22 +58,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-background border-b">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-medium text-foreground">Electrodomésticos</h1>
-            <p className="text-muted-foreground text-sm mt-1">Todos los productos vienen con factura y 3 meses de garantía</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <Link href="/admin/login">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                <Settings className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <CatalogHeader />
 
       <div className="container mx-auto px-6 py-8">
         <FiltersBar
@@ -106,7 +91,10 @@ export default function HomePage() {
       </div>
 
       <ProductPreviewModal product={selectedProduct} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <ContactBubble />
+      {/* <ContactBubble /> */}
+      <footer>
+        <StoreInfo />
+      </footer>
     </div>
   )
 }

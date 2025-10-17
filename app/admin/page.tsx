@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { useProducts } from "@/contexts/products-context"
 import { Badge } from "@/components/ui/badge"
 import type { Electrodomestico } from "@/contexts/products-context"
- 
+
 type NuevoElectrodomesticoState = {
   nombre: string
   marca: string
@@ -213,18 +213,22 @@ export default function AdminPanel() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-background border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-foreground">Panel de Administración</h1>
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground">Panel de Administración</h1>
+            <p className="text-xs text-muted-foreground">Gestión de productos</p>
+          </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-foreground">
+            <Button variant="ghost" size="sm" onClick={handleLogout} className="rounded-md bg-transparent hover:text-foreground">
               <LogOut className="h-4 w-4 mr-2" />
               Cerrar Sesión
             </Button>
           </div>
         </div>
       </header>
+
 
       <div className="container mx-auto px-4 py-6">
         <FiltersBar

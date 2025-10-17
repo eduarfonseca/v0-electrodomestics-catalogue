@@ -16,6 +16,9 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        available: "bg-green-100 text-green-800 outline outline-green-400 hover:bg-green-200 hover:outline-green-300 hover:text-green-900 dark:outline-green-600 dark:bg-green-900/50 dark:text-green-400 dark:hover:bg-green-800/50 dark:hover:outline-green-500 dark:hover:text-green-300",
+        unavailable: "bg-red-50 text-red-600 border border-red-200 dark:border-red-400 dark:bg-red-900/50 dark:text-red-400",
+        brand:"bg-orange-100 outline outline-orange-200 text-orange-800 hover:bg-orange-200 hover:outline-orange-300 hover:text-orange-900 dark:bg-orange-900/50 dark:outline-orange-600 dark:text-orange-400 dark:hover:bg-orange-800/50 dark:hover:outline-orange-500 dark:hover:text-orange-300"
       },
     },
     defaultVariants: {
