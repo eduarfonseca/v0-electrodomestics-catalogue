@@ -18,12 +18,12 @@ export default function Loading() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative flex-shrink-0 rounded-2xl overflow-hidden w-12 h-12 md:w-20 md:h-20">
-                <div
+                {/* <div
                   className="w-full h-full rounded-2xl animate-pulse"
                   style={{
                     background: "linear-gradient(90deg, var(--color-primary, #FFD4E5), var(--color-sidebar-primary, #BEE4E7))",
                   }}
-                />
+                /> */}
               </div>
 
               <div className="space-y-1">
@@ -96,7 +96,7 @@ export default function Loading() {
         </div>
 
         {/* Product grid skeleton */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <article
               key={i}
