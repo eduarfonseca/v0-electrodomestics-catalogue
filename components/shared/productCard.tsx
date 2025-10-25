@@ -46,25 +46,25 @@ export default function ProductCard({
       </div>
 
       <CardHeader className="pb-2">
-        <CardTitle className="lg:text-lg text-xl font-medium text-foreground">{product.nombre}</CardTitle>
-        <CardDescription className="lg:text-sm text-lg text-muted-foreground">
+        <CardTitle className="text-lg font-medium text-foreground">{product.nombre}</CardTitle>
+        <CardDescription className="text-muted-foreground">
           {product.marca} • {product.categoria}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="pb-2">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-2 lg:text-sm text-lg text-muted-foreground">Precio Minorista
-            <p className="text-2xl font-semibold text-foreground">${product.precioMinorista}</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2 text-sm text-muted-foreground">Precio Minorista
+            <p className="text-xl font-semibold text-foreground">${product.precioMinorista}</p>
           </div>
 
-          <div className="space-y-2 lg:text-sm text-lg text-muted-foreground">Precio Mayorista
-            <p className="text-2xl font-medium text-green-700">
+          <div className="space-y-2 text-sm text-muted-foreground">Precio Mayorista
+            <p className="text-lg font-medium text-green-600">
               ${product.precioMayorista}
             </p>
-            <span className="lg:text-xs text-sm text-muted-foreground ml-1">
-              (mínimo {product.cantidadMinimaMayorista} unidades)
-            </span>
+            <span className="text-xs text-muted-foreground ml-1">
+                (mínimo {product.cantidadMinimaMayorista || 0} unidades)
+              </span>
           </div>
 
         </div>

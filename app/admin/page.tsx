@@ -95,8 +95,11 @@ export default function AdminPanel() {
     return () => window.removeEventListener("resize", check)
   }, [])
 
+  // redirect si no está autenticado (efecto). dejamos el redirect aquí,
+  // y en el render mostramos una pantalla de "verificando" para mantener hooks estables.
   useEffect(() => {
     if (!loading && !isAuthenticated) {
+      // hacemos push (podría ser redundante si el provider ya lo hace)
       router.push("/admin/login")
     }
   }, [isAuthenticated, loading, router])
@@ -245,20 +248,29 @@ export default function AdminPanel() {
     toggleDisponibilidad(id)
   }
 
-  const handleLogout = () => {
-    logout()
-    router.push("/")
+  // --- FIX: hacer logout async y esperar a que termine antes de push
+  const handleLogout = async () => {
+    try {
+      // si logout retorna promesa, la esperamos; si es síncrona, también funciona
+      await logout()
+    } catch (err) {
+      // ignoramos errores de logout y seguimos con redirect
+      console.error("Logout error:", err)
+    } finally {
+      // hacer push después
+      router.push("/")
+    }
   }
 
-  // loading global
-  if (loading || productsLoading) {
+  // --- IMPORTANTE: Unificamos la comprobación de loading/auth en un único early return
+  // para evitar cambios en la cantidad/orden de hooks entre renders.
+  if (loading || productsLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-gray-600">Verificando autenticación...</p>
       </div>
     )
   }
-  if (!isAuthenticated) return null
 
   // helpers para paginación visual
   const gotoPrev = () => setCurrentPage((p) => Math.max(1, p - 1))
