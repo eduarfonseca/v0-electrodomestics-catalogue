@@ -1,8 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Loading() {
+  const [items, setItems] = useState<number>(8);
+
+  useEffect(() => {
+    const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 640px)");
+
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setItems(e.matches ? 1 : 6);
+    };
+
+    // inicial
+    handleChange(mediaQuery);
+
+    // listener
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+  
   return (
     <div
       className="min-h-screen"
@@ -18,36 +35,25 @@ export default function Loading() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative flex-shrink-0 rounded-2xl overflow-hidden w-12 h-12 md:w-20 md:h-20">
-                {/* <div
-                  className="w-full h-full rounded-2xl animate-pulse"
-                  style={{
-                    background: "linear-gradient(90deg, var(--color-primary, #FFD4E5), var(--color-sidebar-primary, #BEE4E7))",
-                  }}
-                /> */}
               </div>
 
               <div className="space-y-1">
                 <div
-                  className="h-4 w-44 rounded animate-pulse"
-                  style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
+                  className="h-4 w-44 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"                
                 />
                 <div
-                  className="h-3 w-28 rounded animate-pulse"
-                  style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
+                  className="h-3 w-28 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
+                  
                 />
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <div
-                className="h-8 w-8 rounded-md animate-pulse"
-                style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-                aria-hidden
+                className="h-8 w-8 rounded-md animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
               />
               <div
-                className="h-8 w-20 rounded-md animate-pulse"
-                style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-                aria-hidden
+                className="h-8 w-20 rounded-md animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
               />
             </div>
           </div>
@@ -56,18 +62,6 @@ export default function Loading() {
 
       <main className="container mx-auto px-4 py-8" role="status" aria-live="polite">
         {/* Hero / Search area */}
-        <div className="text-center mb-8">
-          <div className="mx-auto max-w-2xl">
-            <div
-              className="h-8 rounded w-3/4 mx-auto mb-3 animate-pulse"
-              style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-            />
-            <div
-              className="h-4 rounded w-1/2 mx-auto animate-pulse"
-              style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-            />
-          </div>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-center">
           <div className="col-span-2">
@@ -76,28 +70,18 @@ export default function Loading() {
               style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
             />
           </div>
-          <div className="col-span-1 flex gap-2">
-            <div
-              className="h-12 flex-1 rounded-lg animate-pulse"
-              style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-            />
-            <div
-              className="h-12 w-16 rounded-lg animate-pulse"
-              style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-            />
-          </div>
         </div>
 
         {/* Category pills skeleton */}
-        <div className="mb-8 flex flex-wrap gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="mb-8 flex flex-row gap-3 sm:justify-center overflow-hidden px-2">
+          {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="h-8 rounded-full bg-gray-200 dark:bg-gray-700 px-4 py-1 animate-pulse w-[120px]" />
           ))}
         </div>
 
         {/* Product grid skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {Array.from({ length: 8 }).map((_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+          {Array.from({ length: items }).map((_, i) => (
             <article
               key={i}
               className="rounded-lg border-2 overflow-hidden p-0 bg-card"
@@ -133,10 +117,6 @@ export default function Loading() {
           </div>
         </div>
 
-        {/* Dialog/modal placeholder */}
-        <div className="fixed bottom-6 right-6 md:bottom-10 md:right-10">
-          <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
-        </div>
 
         {/* Footer-ish loading hint */}
         <div className="mt-8 text-center text-sm text-muted-foreground" aria-hidden={false}>
@@ -164,7 +144,7 @@ export default function Loading() {
 
           <div className="flex items-center justify-center gap-2">
             <span className="font-medium">Cargando catálogo...</span>
-            <span className="sr-only">Espere mientras cargamos los productos</span>
+            {/* <span className="sr-only">Espere mientras cargan los productos</span> */}
           </div>
         </div>
       </main>

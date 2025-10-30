@@ -6,35 +6,28 @@ import React from "react";
 import { supabase } from "@/lib/supabase";
 import { Badge } from "@/components/ui/badge";
 import { ShareButton, WhatsAppContactButton } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link"
 import CatalogHeader from "@/components/catalog-header";
 import StoreInfo from "@/components/store-info";
+import BackButton from "@/components/back-button";
 
 type Params = { params: { id: string } };
 
-// Forzamos consultas en tiempo real por request (ajusta si quieres caching/ISR)
 export const dynamic = "force-dynamic";
 
-// URL base (usa variable de entorno si la defines)
 const DEFAULT_SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://v0-electrodomesticoscatalogue.vercel.app";
 
 function absoluteUrl(pathOrUrl?: string) {
   if (!pathOrUrl) return undefined;
   try {
-    // si ya es absoluta la normalizamos
     const u = new URL(pathOrUrl);
     return u.toString();
   } catch {
-    // path relativo -> asegurar leading slash
     const p = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
     return `${DEFAULT_SITE}${p}`;
   }
 }
 
 async function getProductoById(id: string) {
-  // Supabase server-side (usa el cliente que ya tienes en /lib/supabase)
   const { data, error } = await supabase
     .from("Producto")
     .select("*")
@@ -49,9 +42,6 @@ async function getProductoById(id: string) {
   return data;
 }
 
-/**
- * Metadata dinámica para cada producto.
- */
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = await params;
   const prod: any = await getProductoById(id);
@@ -114,22 +104,14 @@ export default async function ProductoPage({ params }: { params: { id: string } 
   };
 
   return (
-    <div className="min-h-screen ">
+    // layout column: main crece y footer queda al final
+    <div className="min-h-screen flex flex-col bg-background">
       <CatalogHeader />
-      <main className="container mx-auto px-4 py-8 bg-background">
 
-        <Link href="/">
-          <Button
-            variant="outline"
-            className="mb-6 bg-primary/5 hover:bg-muted/80  focus:outline-none focus:ring-2 focus:ring-offset-1 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)] dark:text-white"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Volver al Catálogo
-          </Button></Link>
+      {/* main ocupa el espacio disponible */}
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <BackButton />
 
-
-        {/* Container: add top padding on mobile so content appears below the fixed back button.
-          sm:pt-0 restores normal spacing in larger screens. */}
         <div className="container mx-auto gap-8 mb-12">
           <div className="mb-6">
             <div className="flex items-center justify-between gap-4">
@@ -139,7 +121,6 @@ export default async function ProductoPage({ params }: { params: { id: string } 
                   {producto.marca} • {producto.categoria}
                 </p>
               </div>
-
 
               <div className="flex items-center gap-3">
                 <ShareButton productId={String(producto.id)} title={producto.nombre} text={producto.marca} />
@@ -172,7 +153,7 @@ export default async function ProductoPage({ params }: { params: { id: string } 
 
               <div>
                 <div className="text-sm text-muted-foreground">
-                  Precio Mayorista (mín. {producto.cantidadMinimaMayorista} uds.)
+                  Precio Mayorista (mínimo {producto.cantidadMinimaMayorista} uds.)
                 </div>
                 <div className="text-2xl font-bold text-green-600">${producto.precioMayorista}</div>
               </div>
@@ -187,6 +168,8 @@ export default async function ProductoPage({ params }: { params: { id: string } 
 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </main>
+
+      {/* footer se queda al final */}
       <footer>
         <StoreInfo />
       </footer>

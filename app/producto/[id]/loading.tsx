@@ -5,20 +5,39 @@ export default function Loading() {
   return (
     <div className="min-h-screen">
       {/* Header skeleton */}
+      {/* Header skeleton */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-3 py-2 md:py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-[#FFD4E5] to-[#BEE4E7] animate-pulse" />
+              <div className="relative flex-shrink-0 rounded-2xl overflow-hidden w-12 h-12 md:w-20 md:h-20">
+                {/* <div
+                  className="w-full h-full rounded-2xl animate-pulse"
+                  style={{
+                    background: "linear-gradient(90deg, var(--color-primary, #FFD4E5), var(--color-sidebar-primary, #BEE4E7))",
+                  }}
+                /> */}
+              </div>
+
               <div className="space-y-1">
-                <div className="h-4 w-44 rounded bg-gray-200 dark:bg-gray-700 animate-pulse" />
-                <div className="h-3 w-28 rounded bg-gray-200 dark:bg-gray-700 animate-pulse" />
+                <div
+                  className="h-4 w-44 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
+                  
+                />
+                <div
+                  className="h-3 w-28 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
+                  
+                />
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-md bg-gray-200 dark:bg-gray-700 animate-pulse" />
-              <div className="h-8 w-20 rounded-md bg-gray-200 dark:bg-gray-700 animate-pulse" />
+              <div
+                className="h-8 w-8 rounded-md animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
+              />
+              <div
+                className="h-8 w-20 rounded-md animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
+              />
             </div>
           </div>
         </div>
@@ -82,7 +101,7 @@ export default function Loading() {
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
             <path className="opacity-75" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" fill="currentColor"></path>
           </svg>
-          Cargando producto... <span className="sr-only">Espere mientras cargamos los datos del producto</span>
+          Cargando producto... <span className="sr-only"></span>
         </div>
       </main>
 

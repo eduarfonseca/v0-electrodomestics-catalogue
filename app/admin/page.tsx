@@ -48,7 +48,7 @@ export default function AdminPanel() {
     isLoading: productsLoading,
   } = useProducts()
 
-  // ---- estado UI y formulario (igual que el tuyo) ----
+  // ---- estado UI y formulario ----
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [busqueda, setBusqueda] = useState("")
   const [nuevoElectrodomestico, setNuevoElectrodomestico] = useState<NuevoElectrodomesticoState>({
@@ -87,7 +87,21 @@ export default function AdminPanel() {
   const [pageSize, setPageSize] = useState<number>(10)
   const [currentPage, setCurrentPage] = useState<number>(1)
 
+  // responsive
   const [isMobile, setIsMobile] = useState<boolean>(false)
+
+  // textarea auto-resize: referencia y efecto PARA QUE SIEMPRE SE LLAME (moved here)
+  const descripcionRef = useRef<HTMLTextAreaElement | null>(null)
+  useEffect(() => {
+    const el = descripcionRef.current
+    if (!el) return
+    // reset height to auto to correctly measure scrollHeight
+    el.style.height = "auto"
+    const next = Math.min(el.scrollHeight, 500) // limitar altura máxima (ajustable)
+    el.style.height = `${next}px`
+  }, [nuevoElectrodomestico.descripcion])
+
+  // effect: detectar mobile/responsive
   useEffect(() => {
     const check = () => setIsMobile(typeof window !== "undefined" ? window.innerWidth < 640 : false)
     check()
@@ -104,7 +118,7 @@ export default function AdminPanel() {
     }
   }, [isAuthenticated, loading, router])
 
-  // ---- filtrado y orden (igual al tuyo, + paginación) ----
+  // ---- filtrado y orden (usar useMemo para optimizar) ----
   const productosFiltradosOrdenados = useMemo(() => {
     const q = busqueda.toLowerCase().trim()
     const filtered = electrodomesticos.filter((e) => {
@@ -141,7 +155,7 @@ export default function AdminPanel() {
     return productosFiltradosOrdenados.slice(start, start + pageSize)
   }, [productosFiltradosOrdenados, currentPage, pageSize])
 
-  // ---- funciones CRUD (mantengo la lógica original) ----
+  // ---- funciones CRUD y handlers ----
   const iniciarEdicion = (electrodomestico: any) => {
     setNuevoElectrodomestico({
       nombre: electrodomestico.nombre ?? "",
@@ -262,16 +276,6 @@ export default function AdminPanel() {
     }
   }
 
-  // --- IMPORTANTE: Unificamos la comprobación de loading/auth en un único early return
-  // para evitar cambios en la cantidad/orden de hooks entre renders.
-  if (loading || productsLoading || !isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-gray-600">Verificando autenticación...</p>
-      </div>
-    )
-  }
-
   // helpers para paginación visual
   const gotoPrev = () => setCurrentPage((p) => Math.max(1, p - 1))
   const gotoNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1))
@@ -279,19 +283,7 @@ export default function AdminPanel() {
     setPageSize(n)
     setCurrentPage(1)
   }
-
-  // textarea auto-resize: referencia y efecto para ajustar altura cuando cambie contenido
-  const descripcionRef = useRef<HTMLTextAreaElement | null>(null)
-  useEffect(() => {
-    const el = descripcionRef.current
-    if (!el) return
-    // reset height to auto to correctly measure scrollHeight
-    el.style.height = "auto"
-    const next = Math.min(el.scrollHeight, 500) // limitar altura máxima (ajustable)
-    el.style.height = `${next}px`
-  }, [nuevoElectrodomestico.descripcion])
-
-  // ---- render ----
+  
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">

@@ -1,6 +1,7 @@
 // components/shared/ProductCard.tsx
 "use client"
 import React from "react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -24,10 +25,38 @@ export default function ProductCard({
   onToggleDisponibilidad,
   onDelete,
 }: Props) {
+  const router = useRouter()
+
+  const handleCardClick = () => {
+    if (admin) return
+
+    try {
+      onClick?.(product)
+    } catch (err) {
+      // no-blocking: si el onClick lanza algo, seguimos con la navegación
+      console.error("onClick handler error:", err)
+    }
+
+    // Guardar scroll actual en sessionStorage usando pathname + search como key
+    try {
+      if (typeof window !== "undefined") {
+        const key = `catalog-scroll:${window.location.pathname}${window.location.search}`
+        const y = window.scrollY ?? window.pageYOffset ?? 0
+        sessionStorage.setItem(key, String(Math.floor(y)))
+      }
+    } catch (e) {
+      // no sabemos si sessionStorage está disponible — no bloquear la navegación
+      console.warn("No se pudo guardar scroll en sessionStorage:", e)
+    }
+
+    // navegación cliente a la página del producto
+    router.push(`/producto/${encodeURIComponent(String(product.id))}`)
+  }
+
   return (
     <Card
       className={`overflow-hidden border-gray-200 shadow-sm hover:shadow-md transition-shadow ${admin ? "" : "cursor-pointer"}`}
-      onClick={() => !admin && onClick?.(product)}
+      onClick={() => handleCardClick()}
     >
       <div className="aspect-square relative bg-gray-50">
         <img
@@ -54,19 +83,20 @@ export default function ProductCard({
 
       <CardContent className="pb-2">
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2 text-sm text-muted-foreground">Precio Minorista
+          <div className="space-y-2 text-sm text-muted-foreground">
+            Precio Minorista
             <p className="text-xl font-semibold text-foreground">${product.precioMinorista}</p>
           </div>
 
-          <div className="space-y-2 text-sm text-muted-foreground">Precio Mayorista
-            <p className="text-lg font-medium text-green-600">
+          <div className="space-y-2 text-sm text-muted-foreground">
+            Precio Mayorista
+            <p className="text-xl font-medium text-green-600">
               ${product.precioMayorista}
             </p>
             <span className="text-xs text-muted-foreground ml-1">
-                (mínimo {product.cantidadMinimaMayorista || 0} unidades)
-              </span>
+              (mínimo {product.cantidadMinimaMayorista || 0} uds.)
+            </span>
           </div>
-
         </div>
       </CardContent>
 
@@ -113,12 +143,10 @@ export default function ProductCard({
             </Button>
           </div>
         </CardFooter>
-
       ) : (
         <CardFooter shareProductId={product.id} shareProductTitle={product.nombre} shareProductText={product.marca} viewProductId={product.id} className="pt-2">
         </CardFooter>
-      )
-      }
-    </Card >
+      )}
+    </Card>
   )
 }

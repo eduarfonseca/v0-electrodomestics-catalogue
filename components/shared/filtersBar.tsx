@@ -78,14 +78,6 @@ export default function FiltersBar({
                         <div className="flex-shrink-0">
                             <AvailableFilter active={availableOnly} onChange={setAvailableOnly} />
                         </div>
-                        <div className="flex-shrink-0">
-                            <BrandFilter
-                                selected={brandSelected}
-                                onChange={(b) => setBrand?.(b ?? null)}
-                                searchId={id}
-                                isMobile={isMobile}
-                            />
-                        </div>
 
                         <div className="flex-shrink-0">
                             <CategoryFilter
@@ -96,6 +88,14 @@ export default function FiltersBar({
                             />
                         </div>
                         
+                        <div className="flex-shrink-0">
+                            <BrandFilter
+                                selected={brandSelected}
+                                onChange={(b) => setBrand?.(b ?? null)}
+                                searchId={id}
+                                isMobile={isMobile}
+                            />
+                        </div>                        
 
                         <div className="flex-shrink-0">
                             <SortByName onActiveChange={(a) => onNameActiveChange?.(a)} />
