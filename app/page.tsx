@@ -106,9 +106,9 @@ export default function HomePage() {
 
       try {
         if ("scrollRestoration" in history) {
-          ;(history as any).scrollRestoration = "manual"
+          ; (history as any).scrollRestoration = "manual"
         }
-      } catch (e) {}
+      } catch (e) { }
 
       try {
         savedScrollBehaviorRef.current = (document.documentElement.style as any).scrollBehavior || ""
@@ -121,7 +121,7 @@ export default function HomePage() {
 
       try {
         (document.documentElement.style as any).scrollBehavior = "auto"
-      } catch {}
+      } catch { }
       window.scrollTo(0, startY)
 
       requestAnimationFrame(() => {
@@ -131,12 +131,12 @@ export default function HomePage() {
         const cleanup = window.setTimeout(() => {
           try {
             (document.documentElement.style as any).scrollBehavior = savedScrollBehaviorRef.current || ""
-          } catch {}
+          } catch { }
           try {
             if ("scrollRestoration" in history) {
-              ;(history as any).scrollRestoration = "auto"
+              ; (history as any).scrollRestoration = "auto"
             }
-          } catch {}
+          } catch { }
           window.clearTimeout(cleanup)
         }, restoreAfter)
       })
@@ -168,24 +168,47 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParamsString])
 
-  // sincronizar estado -> URL (replace para no llenar historial)
+  const didInitFromParamsRef = useRef(false);
+
   useEffect(() => {
-    const params = new URLSearchParams()
+    // si aún no inicializamos los estados desde searchParams, NO sincronizamos la URL
+    // (esto evita que la primera replace/navegación rompa la restauración de scroll)
+    if (!initializedRef.current) {
+      // marque que llegamos aquí para futuras ejecuciones
+      didInitFromParamsRef.current = true;
+      return;
+    }
 
-    if (busqueda && busqueda.trim() !== "") params.set("q", busqueda.trim())
-    params.set("available", availableOnly ? "1" : "0")
-    if (nameSortActive) params.set("name", "1")
-    if (priceSortActive) params.set("price", "1")
-    if (categorySelected) params.set("category", categorySelected)
-    if (brandSelected) params.set("brand", brandSelected)
+    // construimos querystring desde el estado
+    const params = new URLSearchParams();
 
-    const qs = params.toString()
-    const url = qs ? `${pathname}?${qs}` : pathname
+    if (busqueda && busqueda.trim() !== "") params.set("q", busqueda.trim());
+    params.set("available", availableOnly ? "1" : "0");
+    if (nameSortActive) params.set("name", "1");
+    if (priceSortActive) params.set("price", "1");
+    if (categorySelected) params.set("category", categorySelected);
+    if (brandSelected) params.set("brand", brandSelected);
 
-    router.replace(url)
+    const qs = params.toString();
+    const url = qs ? `${pathname}?${qs}` : pathname;
+
+    // Actualizar el URL sin forzar navegación/scroll: preferimos replaceState.
+    try {
+      if (typeof window !== "undefined" && window.history && window.history.replaceState) {
+        // Solo modificamos el historial — no forzamos navegación con Next.js
+        window.history.replaceState(null, "", url);
+      } else {
+        // Fallback ( Next.js router )
+        router.replace(url);
+      }
+    } catch (err) {
+      // si algo falla, fallback al router
+      try {
+        router.replace(url);
+      } catch { }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [busqueda, availableOnly, nameSortActive, priceSortActive, categorySelected, brandSelected, pathname])
-
+  }, [busqueda, availableOnly, nameSortActive, priceSortActive, categorySelected, brandSelected, pathname]);
   // restaurar cuando la página vuelve a mostrarse (back/forward)
   useEffect(() => {
     const onPageShow = (ev: PageTransitionEvent) => {
@@ -219,12 +242,12 @@ export default function HomePage() {
       }
       try {
         (document.documentElement.style as any).scrollBehavior = savedScrollBehaviorRef.current || ""
-      } catch {}
+      } catch { }
       try {
         if ("scrollRestoration" in history) {
-          ;(history as any).scrollRestoration = "auto"
+          ; (history as any).scrollRestoration = "auto"
         }
-      } catch {}
+      } catch { }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
