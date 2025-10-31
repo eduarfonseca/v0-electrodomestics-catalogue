@@ -1,7 +1,7 @@
 // app/page.tsx (client)
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import Loading from "./loading"
 import FiltersBar from "@/components/shared/filtersBar"
 import ProductGrid from "@/components/shared/productGrid"
@@ -283,7 +283,7 @@ export default function HomePage() {
       <CatalogHeader />
 
       {/* main crece y empuja footer abajo */}
-      <main className="flex-1 container mx-auto px-6 py-8">
+      <main className="flex-1 container mx-auto px-2 py-3">
         <FiltersBar
           id="home-search"
           value={busqueda}
@@ -304,7 +304,7 @@ export default function HomePage() {
           setBrand={setBrandSelected}
         />
 
-        <ProductGrid items={electrodomesticosFiltrados} onItemClick={handleProductClick} animKey={animKey} />
+        <ProductGrid items={electrodomesticosFiltrados} onItemClick={handleProductClick} animKey={animKey} categorySelected="" />
 
         {electrodomesticosFiltrados.length === 0 && (
           <div className="text-center py-16">

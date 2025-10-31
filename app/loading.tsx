@@ -9,7 +9,7 @@ export default function Loading() {
     const mediaQuery: MediaQueryList = window.matchMedia("(max-width: 640px)");
 
     const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
-      setItems(e.matches ? 1 : 6);
+      setItems(e.matches ? 4 : 8);
     };
 
     // inicial
@@ -80,7 +80,7 @@ export default function Loading() {
         </div>
 
         {/* Product grid skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 gap-6">
           {Array.from({ length: items }).map((_, i) => (
             <article
               key={i}
