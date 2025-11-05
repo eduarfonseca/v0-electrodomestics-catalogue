@@ -180,12 +180,12 @@ export default function CategoryFilter({ selected = null, onChange, searchId }: 
             variant={selected ? "default" : "ghost"}
             size="sm"
             onClick={() => setOpen((s) => !s)}
-            className={`h-8 px-3 min-w-[140px] flex items-center justify-between text-sm ${selected ? "scale-105 shadow-md" : ""}`}
+            className={`dark:text-white h-8 px-3 min-w-[140px] flex items-center justify-between text-sm ${selected ? "scale-105 shadow-md  dark:bg-accent" : ""}`}
             aria-haspopup="listbox"
             aria-expanded={open}
           >
             <span className="truncate max-w-[9rem]">{selected ?? "Categoría"}</span>
-            <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+            <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180 " : ""}`} />
           </Button>
         </div>
       </div>

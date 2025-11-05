@@ -105,7 +105,7 @@ export default function SortByPrice({ onActiveChange }: Props) {
                 onClick={handleAscClick}
                 aria-pressed={direction === "asc"}
                 title={direction === "asc" ? "Click para restablecer" : "Precio ascendente"}
-                className={`h-8 w-8 transition-transform duration-150 ${direction === "asc" ? "scale-105 shadow-md" : ""}`}
+                className={`h-8 w-8 transition-transform duration-150 ${direction === "asc" ? "scale-105 shadow-md dark:text-white dark:bg-accent" : ""}`}
               >
                 <SortAsc className="h-4 w-4" />
               </Button>
@@ -116,7 +116,7 @@ export default function SortByPrice({ onActiveChange }: Props) {
                 onClick={handleDescClick}
                 aria-pressed={direction === "desc"}
                 title={direction === "desc" ? "Click para restablecer" : "Precio descendente"}
-                className={`h-8 w-8 transition-transform duration-150 ${direction === "desc" ? "scale-105 shadow-md" : ""}`}
+                className={`h-8 w-8 transition-transform duration-150 ${direction === "desc" ? "scale-105 shadow-md dark:text-white dark:bg-accent" : ""}`}
               >
                 <SortDesc className="h-4 w-4" />
               </Button>

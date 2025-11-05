@@ -179,7 +179,7 @@ export default function BrandFilter({ selected = null, onChange, searchId }: Pro
                         variant={selected ? "default" : "ghost"}
                         size="sm"
                         onClick={() => setOpen((s) => !s)}
-                        className={`h-8 px-3 min-w-[140px] flex items-center justify-between text-sm ${selected ? "scale-105 shadow-md" : ""}`}
+                        className={`dark:text-white h-8 px-3 min-w-[140px] flex items-center justify-between text-sm ${selected ? "scale-105 shadow-md  dark:bg-accent" : ""}`}
                         aria-haspopup="listbox"
                         aria-expanded={open}
                     >

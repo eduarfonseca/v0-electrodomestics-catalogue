@@ -37,7 +37,7 @@ export default function AvailableFilter({ active, onChange, className = "" }: Pr
                 size="sm"
                 variant={active ? "default" : "ghost"}
                 onClick={() => onChange(!active)}
-                className={`h-8 w-8 transition-transform duration-150 ${active ? "scale-105 shadow-md" : ""}`}
+                className={`h-8 w-8 transition-transform duration-150 ${active ? "scale-105 shadow-md dark:text-white  dark:bg-accent" : ""}`}
               >
                 {active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
               </Button>
