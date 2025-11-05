@@ -174,7 +174,7 @@ export default function CategoryFilter({ selected = null, onChange, searchId }: 
           </div>
         )}
 
-        <div className="flex items-center gap-1 bg-card/50 p-1 rounded-lg shadow-sm transition-all duration-200 ease-in-out transform-gpu">
+        <div className="flex items-center gap-1 p-1 rounded-lg shadow-sm transition-all duration-200 ease-in-out transform-gpu">
           <Button
             ref={buttonRef}
             variant={selected ? "default" : "ghost"}

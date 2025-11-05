@@ -64,9 +64,9 @@ export default function Loading() {
         {/* Hero / Search area */}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-center">
-          <div className="col-span-2">
+          <div className="col-span-2 max-w-full mb-2">
             <div
-              className="h-12 rounded-lg animate-pulse"
+              className="h-12 rounded-lg animate-pulse "
               style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
             />
           </div>

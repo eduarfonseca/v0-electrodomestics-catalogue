@@ -5,7 +5,7 @@ import React from "react"
 import type { Electrodomestico } from "@/contexts/products-context"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Edit, Pencil, Trash2 } from "lucide-react"
+import { Pencil, Trash2 } from "lucide-react"
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 
 type Props = {
@@ -107,7 +107,7 @@ export default function ProductTable({
                         e.stopPropagation()
                         onDelete?.(p.id)
                       }}
-                      className="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                      className="text-[var(--destructive)] hover:text:opacity-90 dark:text-[var(--destructive-foreground)]"
                       aria-label={`Eliminar ${p.nombre}`}
                     >
                       <Trash2 className="h-4 w-4" />

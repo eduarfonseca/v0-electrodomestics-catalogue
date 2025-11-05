@@ -14,7 +14,7 @@ export default function CatalogHeader() {
                 <div className="flex items-center gap-2">
                     <ThemeToggle />
                     <Link href="/admin/login">
-                        <Button variant="outline" size="sm" className="rounded-md  hover:text-foreground bg-transparent">
+                        <Button variant="outline" size="sm" className="rounded-md bg-transparent">
                             Admin
                         </Button>
                     </Link>

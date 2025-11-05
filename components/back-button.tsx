@@ -25,7 +25,7 @@ export default function BackButton({ fallbackHref = "/" }: { fallbackHref?: stri
   return (
     <Button
       variant="outline"
-      className="mb-6 bg-primary/5 hover:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-offset-1 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)] dark:text-white"
+      className="mb-6 hover:bg-[color:var(--muted)/0.12] focus:outline-none focus:ring-2 focus:ring-offset-1 border border-[color:var(--border)] dark:border-[color:var(--sidebar-border)]"
       onClick={handleBack}
     >
       <ArrowLeft className="w-4 h-4 mr-2" />

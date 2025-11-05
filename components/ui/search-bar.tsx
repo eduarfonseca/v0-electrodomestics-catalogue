@@ -55,7 +55,7 @@ export default function SearchBar({
       id={id}
       className={`relative w-full ${className} transition-all duration-200 ease-in-out ${expandedClass} min-w-0 z-10`}
     >
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 h-4 w-4" />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--muted-foreground,rgba(0,0,0,0.6))] h-4 w-4" />
 
       <Input
         placeholder={placeholder}
@@ -66,7 +66,7 @@ export default function SearchBar({
         onBlur={handleBlur}
         autoFocus={autoFocus}
         className={
-          "pl-10 w-full bg-card/50 dark:bg-transparent outline-transparent rounded-md outline-none transition-all duration-200 placeholder:text-muted-foreground text-foreground " +
+          "pl-10 w-full dark:bg-transparent outline-transparent rounded-md outline-none transition-all duration-200 placeholder:text-muted-foreground text-foreground " +
           "ring-1 ring-gray-200 dark:ring-none-700 focus:ring-2 focus:ring-gray-300 dark:focus:ring-slate-600 " +
           "shadow-sm focus:shadow-md"
         }

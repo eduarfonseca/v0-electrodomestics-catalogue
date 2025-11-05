@@ -123,11 +123,11 @@ export default function ProductGrid({
       </div>
 
       {/* mensaje de vacío (opcional) */}
-      {filteredItems.length === 0 && (
+      {/* {filteredItems.length === 0 && (
         <div className="text-center py-12">
           <p className="text-muted-foreground text-lg">No se encontraron productos</p>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

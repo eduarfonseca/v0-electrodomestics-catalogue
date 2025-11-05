@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Clock, Phone, MapPin, Map } from "lucide-react"
 import { InstagramSVG, FacebookSVG, MailSVG, WhatsAppSVG } from "./ui/svgs"
-import { FacebookIcon, GmailIcon, InstagramIcon } from "./inons"
+import { FacebookIcon, GmailIcon, InstagramIcon } from "./icons"
 
 export default function StoreInfo() {
   const phoneDisplay = "+53 55550301"
@@ -197,8 +197,8 @@ export default function StoreInfo() {
   ) : null
 
   return (
-    <section className="container mx-auto px-4 py-8">
-      <Card className="bg-card/10" aria-labelledby="storeinfo-heading">
+    <section className="container mx-auto px-1 py-4">
+      <Card className="bg-card" aria-labelledby="storeinfo-heading">
         <CardHeader>
           <CardTitle id="storeinfo-heading" className="text-2xl md:text-3xl">Contáctanos</CardTitle>
           <CardDescription>Información rápida para comunicarte o visitarnos.</CardDescription>
@@ -258,37 +258,23 @@ export default function StoreInfo() {
               <Button
                 asChild
                 variant="outline"
-                className="bg-[color:var(--color-primary)/0.06] hover:bg-[color:var(--color-primary)/0.12] border border-[color:var(--color-border)] dark:border-[color:var(--color-sidebar-border)]"
+                className="hover:bg-accent hover:text-accent-foreground bg-[color:var(--color-primary)/0.06]  border border-[color:var(--color-border)] dark:border-[color:var(--color-sidebar-border)]"
                 aria-label="Chatear por WhatsApp con Eduardo"
               >
                 <a href={whatsappLink} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2">
-                  <span
-                    className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0 rounded"
-                    style={{
-                      background: "var(--color-popover, color-mix(in srgb, var(--color-primary, #25D366) 10%, transparent))",
-                    }}
-                  >
-                    {WhatsAppSVG}
-                  </span>
-                  <span className="font-medium text-[var(--color-foreground,#111)]">WhatsApp</span>
+                  <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0">{WhatsAppSVG}</span>
+                  <span className="font-medium text-[var(--color-foreground,#111)] ">WhatsApp</span>
                 </a>
               </Button>
 
               <Button
                 asChild
                 variant="outline"
-                className="bg-[color:var(--color-primary)/0.06] hover:bg-[color:var(--color-primary)/0.12] border border-[color:var(--color-border)] dark:border-[color:var(--color-sidebar-border)]"
+                className="hover:text-accent-foreground hover:bg-accent bg-[color:var(--color-primary)/0.06] border border-[color:var(--color-border)] dark:border-[color:var(--color-sidebar-border)]"
                 aria-label="Chatear por WhatsApp con María"
               >
                 <a href={whatsappLink2} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2">
-                  <span
-                    className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0 rounded"
-                    style={{
-                      background: "var(--color-popover, color-mix(in srgb, var(--color-primary, #25D366) 10%, transparent))",
-                    }}
-                  >
-                    {WhatsAppSVG}
-                  </span>
+                  <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0">{WhatsAppSVG}</span>
                   <span className="font-medium text-[var(--color-foreground,#111)]">WhatsApp</span>
                 </a>
               </Button>
@@ -313,15 +299,15 @@ export default function StoreInfo() {
               <Button
                 onClick={openMaps}
                 variant="outline"
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-primary/100 hover:bg-primary/90 border border-[color:var(--color-border)] dark:border-[color:var(--color-sidebar-border)]"
+                className="hover:bg-accent flex-1 inline-flex items-center justify-center gap-2"
                 aria-label="Abrir en la app de mapas"
               >
-                <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0">
-                  <Map className="w-4 h-4 text-white" style={{ color: "#ffffff" }} />
+                <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0 hover:text-accent-foreground">
+                  <Map className="w-4 h-4 text-white " style={{ color: "#2c2a2aff" }} />
                 </span>
 
 
-                <span className="font-medium text-white">
+                <span className="font-medium ">
                   Abrir en {platform === null ? "Maps" : platform === "ios" ? "Apple Maps" : platform === "android" ? "Google Maps" : "Maps"}
                 </span>
               </Button>
@@ -329,7 +315,7 @@ export default function StoreInfo() {
           </div>
 
           {/* Footer / Créditos */}
-          <div className="col-span-full mt-6 pt-4 border-t border-[color:var(--color-border)/0.2]">
+          <div className="col-span-full mt-6 pt-4 ">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0">
                 <div className="text-sm text-[var(--color-muted-foreground,rgba(0,0,0,0.6))]">Desarrollado por</div>

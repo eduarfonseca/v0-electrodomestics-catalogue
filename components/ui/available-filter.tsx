@@ -29,7 +29,7 @@ export default function AvailableFilter({ active, onChange, className = "" }: Pr
       {/* button + estados */}
       <div className="relative h-full overflow-visible">
         <div className="flex items-center gap-1 h-10">
-          <div className="flex items-center gap-1 bg-card/50 px-1 rounded-lg shadow-sm transition-all duration-200 ease-in-out transform-gpu h-full">
+          <div className="flex items-center gap-1  px-1 rounded-lg shadow-sm transition-all duration-200 ease-in-out transform-gpu h-full">
             <div className="h-full flex items-center">
               <Button
                 aria-pressed={active}
@@ -45,13 +45,13 @@ export default function AvailableFilter({ active, onChange, className = "" }: Pr
           </div>
 
           {/* Estado inline visible en desktop */}
-          <div className="hidden sm:block ml-2">
+          {/* <div className="hidden sm:block ml-2">
             {active ? (
               <span className="text-sm text-muted-foreground">Disponibles</span>
             ) : (
               <span className="text-sm text-muted-foreground"></span>
             )}
-          </div>
+          </div> */}
         </div>
 
         {/* Estado debajo solo en móvil */}

@@ -107,7 +107,7 @@ function ViewButton({ productId }: { productId: string }) {
     <Link
       href={href}
       onClick={handleClick}
-      className={`${BUTTON_SIZE_CLASSES} md:min-w-[92px] flex items-center justify-center bg-primary/5 hover:bg-muted/80 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+      className={`${BUTTON_SIZE_CLASSES} md:min-w-[92px] flex items-center justify-center justify-center bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
       aria-label="Ver producto"
       title="Ver producto"
     >
@@ -194,7 +194,7 @@ function ShareButton({
         type="button"
         onClick={handleShare}
         aria-label="Compartir producto"
-        className={`${BUTTON_SIZE_CLASSES} md:min-w-[110px] flex items-center justify-center bg-primary/5 hover:bg-muted/80 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+        className={`${BUTTON_SIZE_CLASSES} md:min-w-[110px] flex items-center justify-center bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
         title="Compartir"
       >
         <Share2 className="h-4 w-4" />
@@ -352,7 +352,7 @@ function WhatsAppContactButton({
         aria-expanded={open}
         aria-label="Contactar por WhatsApp"
         title="Contactar por WhatsApp"
-        className={`${BUTTON_SIZE_CLASSES} md:min-w-[110px] flex items-center justify-center bg-primary/5 hover:bg-muted/80 border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+        className={`${BUTTON_SIZE_CLASSES} md:min-w-[110px] flex items-center justify-center bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
         onMouseDown={(e) => e.preventDefault()}
       >
         <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0">{WhatsAppSVG}</span>

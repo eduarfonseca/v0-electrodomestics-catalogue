@@ -102,7 +102,7 @@ export default function SortByName({ onActiveChange }: Props) {
       {/* Botones + estado: wrapper relative para posicionar el estado móvil */}
       <div className="relative h-full overflow-visible">
         <div className="flex items-center gap-1 h-10">
-          <div className="flex items-center gap-1 bg-card/50 px-1 rounded-lg shadow-sm transition-all duration-200 ease-in-out transform-gpu h-full">
+          <div className="flex items-center gap-1 px-1 rounded-lg shadow-sm transition-all duration-200 ease-in-out transform-gpu h-full">
             <div className="h-full flex items-center">
               <Button
                 variant={direction === "asc" ? "default" : "ghost"}
@@ -129,11 +129,11 @@ export default function SortByName({ onActiveChange }: Props) {
           </div>
 
           {/* Estado inline desktop */}
-          <div className="hidden sm:flex ml-2 flex-col justify-center h-full">
+          {/* <div className="hidden sm:flex ml-2 flex-col justify-center h-full">
             {direction === "asc" && <span className="text-sm text-muted-foreground">A → Z</span>}
             {direction === "desc" && <span className="text-sm text-muted-foreground">Z → A</span>}
-            {/* {direction === "none" && <span className="text-sm text-muted-foreground">Original</span>} */}
-          </div>
+            {direction === "none" && <span className="text-sm text-muted-foreground">Original</span>}
+          </div> */}
         </div>
 
         {/* Estado debajo solo en móvil: absolute centrado bajo el botón */}

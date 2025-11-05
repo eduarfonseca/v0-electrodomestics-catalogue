@@ -2,12 +2,14 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { cookies } from "next/headers"
-import { Space_Grotesk, DM_Sans } from "next/font/google"
+import { Inter, Space_Grotesk, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
 import { ProductsProvider } from "@/contexts/products-context"
 import { ThemeProvider } from "@/components/theme-provider"
 
+// carga Inter para usarla como fuente global (SSR-friendly)
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" })
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], display: "swap", variable: "--font-space-grotesk" })
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: "--font-dm-sans" })
 
@@ -58,8 +60,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const enableSystem = themeCookie ? false : true
 
   return (
-    <html lang="es" className={`${spaceGrotesk.variable} ${dmSans.variable} antialiased ${htmlThemeClass}`} style={colorSchemeStyle}>
-      <body className="font-mono">
+    // incluimos la variable de Inter en html; también dejamos las variables de SpaceGrotesk/DM para uso puntual
+    <html
+      lang="es"
+      className={`${inter.variable} ${spaceGrotesk.variable} ${dmSans.variable} antialiased ${htmlThemeClass}`}
+      style={colorSchemeStyle}
+    >
+      {/* Usamos font-sans en body para que Tailwind aplique la familia configurada (Inter, según tu tailwind.config.js) */}
+      <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme={defaultTheme} enableSystem={enableSystem} disableTransitionOnChange>
           <AuthProvider>
             <ProductsProvider>{children}</ProductsProvider>
