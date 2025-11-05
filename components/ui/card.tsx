@@ -112,7 +112,7 @@ function ViewButton({ productId }: { productId: string }) {
       title="Ver producto"
     >
       <Eye className="h-4 w-4 md:h-3 md:w-3" />
-      <span className="md:inline-block ml-2">Ver Producto</span>
+      <span className="font-medium md:inline-block ml-2">Ver Producto</span>
     </Link>
   );
 }
@@ -198,7 +198,7 @@ function ShareButton({
         title="Compartir"
       >
         <Share2 className="h-4 w-4 md:h-3 md:w-3" />
-        <span className="hidden md:inline-block ml-2">Compartir</span>
+        <span className="font-medium hidden md:inline-block ml-2">Compartir</span>
       </button>
 
       {copied && (
@@ -357,7 +357,7 @@ function WhatsAppContactButton({
       >
         <span className="inline-flex items-center justify-center h-4 w-4 md:h-3 md:w-3 ">{WhatsAppSVG}</span>
         {/* texto sólo en desktop */}
-        <span className=" md:inline-block ml-2">WhatsApp</span>
+        <span className="font-medium md:inline-block ml-2">WhatsApp</span>
       </button>
 
       {typeof document !== "undefined" && portal ? createPortal(portal, document.body) : null}

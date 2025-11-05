@@ -255,6 +255,18 @@ export default function StoreInfo() {
             </div>
 
             <div className="flex gap-2 flex-wrap">
+              {/* <button
+                type="button"
+                aria-label="Contactar por WhatsApp"
+                title="Contactar por WhatsApp"
+                className={`hover:text-accent-foreground hover:bg-accent inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive`}
+              >
+                <a href={whatsappLink} target="_blank" rel="noreferrer noopener" className="inline-flex items-center gap-2">
+                  <span className="inline-flex items-center justify-center h-4 w-4 md:h-3 md:w-3 ">{WhatsAppSVG}</span>
+                  
+                  <span className="font-medium md:inline-block ml-2">WhatsApp</span>
+                </a>
+              </button> */}
               <Button
                 asChild
                 variant="outline"
@@ -303,7 +315,7 @@ export default function StoreInfo() {
                 aria-label="Abrir en la app de mapas"
               >
                 <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0 hover:text-accent-foreground">
-                  <Map className="w-4 h-4 text-white " style={{ color: "#2c2a2aff" }} />
+                  <Map className="w-4 h-4"/>
                 </span>
 
 
