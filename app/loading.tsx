@@ -19,7 +19,7 @@ export default function Loading() {
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
-  
+
   return (
     <div
       className="min-h-screen"
@@ -39,11 +39,11 @@ export default function Loading() {
 
               <div className="space-y-1">
                 <div
-                  className="h-4 w-44 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"                
+                  className="h-4 w-44 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
                 />
                 <div
                   className="h-3 w-28 rounded animate-pulse bg-gray-200 dark:bg-gray-700 animate-pulse"
-                  
+
                 />
               </div>
             </div>
@@ -62,13 +62,15 @@ export default function Loading() {
 
       <main className="container mx-auto px-4 py-8" role="status" aria-live="polite">
         {/* Hero / Search area */}
+        
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 items-center">
-          <div className="col-span-2 max-w-full mb-2">
-            <div
-              className="h-12 rounded-lg animate-pulse "
-              style={{ background: "var(--color-muted, rgba(0,0,0,0.06))" }}
-            />
+          <div className="col-span-2">
+            <div className="h-12 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse" />
+          </div>
+          <div className="col-span-1 flex gap-2">
+            <div className="h-12 flex-1 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse" />
+            <div className="h-12 w-16 rounded-lg bg-gray-200 dark:bg-gray-700 animate-pulse" />
           </div>
         </div>
 

@@ -10,17 +10,17 @@
 /* --- VARIABLES THEME --- */
 :root {
   /* Paleta: light mode */
-  --background: #E8FBFF;
+  --background: #f6feff;
   /* Foam White */
   --foreground: #0F1A1B;
   /* Keel Black */
-  --card: #9FE7E7;
+  --card: #f6ffffdb;
   /* Seafoam Bloom */
   --card-foreground: #0F1A1B;
   --popover: #FFFFFF;
   --popover-foreground: #0F1A1B;
 
-  --primary: #6ECBD3;
+  --primary: #a2e1e7;
   /* Shallow Reef (botones principales) */
   --primary-foreground: #0F1A1B;
 
@@ -154,19 +154,6 @@
 }
 
 /* resto de tu CSS (btn-add, helpers, base, etc.) — mantenlos tal como los pegaste */
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* ... resto de estilos que ya incluiste ... */
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;

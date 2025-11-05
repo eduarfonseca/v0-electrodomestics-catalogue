@@ -90,7 +90,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
 // antes: "inline-flex items-center justify-center rounded-md px-3 h-9 text-sm whitespace-nowrap flex-shrink-0"
 
 const BUTTON_SIZE_CLASSES =
-  "inline-flex items-center justify-center rounded-md px-2 sm:px-3 md:px-4 h-9 text-sm whitespace-nowrap flex-shrink-0 min-w-0";
+  "rounded-md  text-sm md:h-8 h-9 md:px-4 px-3  inline-flex items-center justify-center";
 
 
 /* --------------------
@@ -107,12 +107,12 @@ function ViewButton({ productId }: { productId: string }) {
     <Link
       href={href}
       onClick={handleClick}
-      className={`${BUTTON_SIZE_CLASSES} md:min-w-[92px] flex items-center justify-center justify-center dark:bg-accent bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+      className={`${BUTTON_SIZE_CLASSES} w-full flex items-center justify-center justify-center dark:bg-accent bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)]]`}
       aria-label="Ver producto"
       title="Ver producto"
     >
-      <Eye className="h-4 w-4" />
-      <span className="md:inline-block ml-2">Ver</span>
+      <Eye className="h-4 w-4 md:h-3 md:w-3" />
+      <span className="md:inline-block ml-2">Ver Producto</span>
     </Link>
   );
 }
@@ -194,11 +194,11 @@ function ShareButton({
         type="button"
         onClick={handleShare}
         aria-label="Compartir producto"
-        className={`${BUTTON_SIZE_CLASSES} md:min-w-[110px] flex items-center justify-center dark:bg-accent bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+        className={`${BUTTON_SIZE_CLASSES} flex items-center justify-center gap-2 py-2 md:py-1 md:px-3 md:text-xs flex-1 max-w-[140px] dark:bg-accent bg-primary hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
         title="Compartir"
       >
-        <Share2 className="h-4 w-4" />
-        {/* <span className="hidden md:inline-block ml-2">Compartir</span> */}
+        <Share2 className="h-4 w-4 md:h-3 md:w-3" />
+        <span className="hidden md:inline-block ml-2">Compartir</span>
       </button>
 
       {copied && (
@@ -352,12 +352,12 @@ function WhatsAppContactButton({
         aria-expanded={open}
         aria-label="Contactar por WhatsApp"
         title="Contactar por WhatsApp"
-        className={`${BUTTON_SIZE_CLASSES} md:min-w-[110px] flex items-center justify-center bg-primary dark:bg-accent hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
+        className={`${BUTTON_SIZE_CLASSES} py-2 md:py-1 md:px-4 md:text-xs flex-1  max-w-[220px] flex items-center justify-center bg-primary dark:bg-accent hover:bg-secondary hover:text-accent-foreground border border-[color:var(--color-border)] dark:border-[color:var(--sidebar-border)]`}
         onMouseDown={(e) => e.preventDefault()}
       >
-        <span className="inline-flex items-center justify-center w-5 h-5 flex-shrink-0">{WhatsAppSVG}</span>
+        <span className="inline-flex items-center justify-center h-4 w-4 md:h-3 md:w-3 ">{WhatsAppSVG}</span>
         {/* texto sólo en desktop */}
-        <span className="hidden md:inline-block ml-2">WhatsApp</span>
+        <span className=" md:inline-block ml-2">WhatsApp</span>
       </button>
 
       {typeof document !== "undefined" && portal ? createPortal(portal, document.body) : null}
@@ -394,10 +394,11 @@ function CardFooter({
   return (
     <div
       data-slot="card-footer"
-      className={cn("flex items-center px-4 sm:px-6 py-3 gap-2 md:gap-3 overflow-visible", className)}
+      className={cn("flex flex-col item-stretch gap-2", className)}
       {...props}
     >
-      <div className="flex items-center gap-2 flex-nowrap">
+
+      <div className="w-full justify-center px-3">
         {children}
         {viewProductId != null && (
           <div>
@@ -405,24 +406,25 @@ function CardFooter({
           </div>
         )}
       </div>
-
-      {shareProductId != null && (
-        <div className="ml-auto flex items-center gap-2 flex-nowrap">
-          <ShareButton
-            productId={String(shareProductId)}
-            title={shareProductTitle ?? undefined}
-            text={shareProductText ?? undefined}
-          />
-          {shouldShowWhatsApp && (
-            <WhatsAppContactButton
+      <div className="mt-2 flex justify-center px-3">
+        {shareProductId != null && (
+          <div className="flex gap-3 w-full max-w-[420px] justify-center">
+            <ShareButton
               productId={String(shareProductId)}
               title={shareProductTitle ?? undefined}
               text={shareProductText ?? undefined}
-              numbers={whatsappNumbers ?? ["+53 55550301", "+53 54499134"]}
             />
-          )}
-        </div>
-      )}
+            {shouldShowWhatsApp && (
+              <WhatsAppContactButton
+                productId={String(shareProductId)}
+                title={shareProductTitle ?? undefined}
+                text={shareProductText ?? undefined}
+                numbers={whatsappNumbers ?? ["+53 55550301", "+53 54499134"]}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

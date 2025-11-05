@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { useProducts } from "@/contexts/products-context"
 import type { Electrodomestico } from "@/contexts/products-context"
 import PageSizeFilter from "@/components/shared/page-size-filter"
+import Loading from "@/app/admin/loading"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 type NuevoElectrodomesticoState = {
@@ -48,6 +49,7 @@ export default function AdminPanel() {
     isLoading: productsLoading,
   } = useProducts()
 
+  
   // ---- estado UI y formulario ----
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [busqueda, setBusqueda] = useState("")
@@ -283,6 +285,10 @@ export default function AdminPanel() {
     setPageSize(n)
     setCurrentPage(1)
   }
+
+  if (productsLoading) {
+      return <Loading />
+    }
   
   return (
     <div className="min-h-screen bg-background">
@@ -290,12 +296,12 @@ export default function AdminPanel() {
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-foreground">Panel de Administración</h1>
-            <p className="text-xs text-muted-foreground">Gestión de productos</p>
+            <p className="text-2xs text-muted-foreground">Gestión de productos</p>
           </div>
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Button variant="ghost" size="sm" onClick={handleLogout} className="rounded-md bg-transparent hover:text-foreground">
+            <Button variant="outline" size="sm" onClick={handleLogout} className="rounded-md bg-transparent hover:text-foreground dark:text-foreground hover:text-accent-foreground">
               <LogOut className="h-4 w-4 mr-2" />
               Cerrar Sesión
             </Button>
@@ -313,7 +319,7 @@ export default function AdminPanel() {
               setBusqueda(v)
               setCurrentPage(1)
             }}
-            placeholder="Buscar por nombre, marca o categoría..."
+            placeholder="Buscar productos ..."
             onFocusChange={() => { }}
             enlarged={true}
             expandOnFocus={true}
@@ -355,6 +361,7 @@ export default function AdminPanel() {
               </div>
 
               <Button
+              variant={"outline"}
                 onClick={() => {
                   setEditandoId(null)
                   setNuevoElectrodomestico({
@@ -372,7 +379,7 @@ export default function AdminPanel() {
                   setIsCustomCategory(false)
                   setDialogAbierto(true)
                 }}
-                className="outline"
+                className="dark:hover:text:opacity-90 hover:text-foreground dark:text-foreground hover:text-accent-foreground shadow-md dark:bg-accent"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Agregar Producto
@@ -424,7 +431,7 @@ export default function AdminPanel() {
           </div>
         )}
 
-        {/* Dialog (agregar/editar) — FORMULARIO con categoria tipo 'bebes' y textarea auto-resize */}
+        
         <Dialog open={dialogAbierto} onOpenChange={setDialogAbierto}>
           <DialogContent className="sm:max-w-[640px] max-h-[80vh] overflow-y-auto">
             <DialogHeader>
@@ -453,14 +460,14 @@ export default function AdminPanel() {
                     <Label htmlFor="categoria" className="text-gray-700">Categoría</Label>
                     <Button
                       type="button"
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
                       onClick={() => {
                         setIsCustomCategory((s) => !s)
                         // si cambiamos a custom, limpiar el campo; si volvemos a select, dejar sin selección
                         setNuevoElectrodomestico({ ...nuevoElectrodomestico, categoria: "" })
                       }}
-                      className="text-xs"
+                      className="text-xs shadow-md dark:text-white dark:bg-accent"
                     >
                       {isCustomCategory ? "Seleccionar existente" : "Crear nueva"}
                     </Button>
@@ -549,8 +556,10 @@ export default function AdminPanel() {
 
             <DialogFooter>
               <Button
+              type="button"
+              variant={"outline"}
                 onClick={editandoId ? handleEditarElectrodomestico : handleAgregarElectrodomestico}
-                className="outline"
+                className="shadow-md dark:text-white dark:bg-accent"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Enviando..." : editandoId ? "Guardar Cambios" : "Agregar Producto"}

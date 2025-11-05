@@ -45,8 +45,11 @@ export default function ProductTable({
           {items.map((p) => (
             <TableRow
               key={p.id}
-              className="cursor-default hover:bg-background/5"
-              onClick={() => !admin && onRowClick?.(p)}
+              className="cursor-default transition-all duration-150 hover:rounded-md hover:bg-secondary/10 hover:dark:bg-secondary/30"
+              onClick={(e) => {
+                e.stopPropagation()
+                onEdit?.(p)
+              }}
             >
               <TableCell>
                 <div className="flex items-center gap-3">
@@ -95,11 +98,12 @@ export default function ProductTable({
                         onEdit?.(p)
                       }}
                       aria-label={`Editar ${p.nombre}`}
+                      className="dark:bg-accent dark:hover:text:opacity-90"
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
 
-                
+
                     <Button
                       size="sm"
                       variant="outline"
@@ -107,7 +111,7 @@ export default function ProductTable({
                         e.stopPropagation()
                         onDelete?.(p.id)
                       }}
-                      className="text-[var(--destructive)] hover:text:opacity-90 dark:text-[var(--destructive-foreground)]"
+                      className="dark:hover:text:opacity-90 dark:bg-accent"
                       aria-label={`Eliminar ${p.nombre}`}
                     >
                       <Trash2 className="h-4 w-4" />
