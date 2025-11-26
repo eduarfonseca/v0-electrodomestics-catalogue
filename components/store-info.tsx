@@ -23,7 +23,7 @@ export default function StoreInfo() {
   const telLink = `tel:${phoneDisplay.replace(/\s+/g, "")}`
   const telLink2 = `tel:${phoneDisplay2.replace(/\s+/g, "")}`
 
-  const address = "Monte y Romay #1069, Monte, Cerro"
+  const address = "Cerro, La Habana, Cuba"
   const lat = "23.119"
   const lng = "-82.369028"
 
@@ -301,13 +301,13 @@ export default function StoreInfo() {
 
 
               <div>
-                <p className="text-sm text-[var(--color-muted-foreground,rgba(0,0,0,0.6))]">Dirección</p>
+                <p className="text-sm text-[var(--color-muted-foreground,rgba(0,0,0,0.6))]">Ubicación</p>
                 <p className="font-semibold text-[var(--color-foreground,#111)]">{address}</p>
-                <p className="text-xs text-[var(--color-muted-foreground,rgba(0,0,0,0.6))] mt-1">Coordenadas: {lat}, {lng}</p>
+                {/* <p className="text-xs text-[var(--color-muted-foreground,rgba(0,0,0,0.6))] mt-1">Coordenadas: {lat}, {lng}</p> */}
               </div>
             </div>
 
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <Button
                 onClick={openMaps}
                 variant="outline"
@@ -323,7 +323,7 @@ export default function StoreInfo() {
                   Abrir en {platform === null ? "Maps" : platform === "ios" ? "Apple Maps" : platform === "android" ? "Google Maps" : "Maps"}
                 </span>
               </Button>
-            </div>
+            </div> */}
           </div>
 
           {/* Footer / Créditos */}
