@@ -9,6 +9,7 @@ import { ShareButton, WhatsAppContactButton } from "@/components/ui/card";
 import CatalogHeader from "@/components/catalog-header";
 import StoreInfo from "@/components/store-info";
 import BackButton from "@/components/back-button";
+import ProductCarousel from "@/components/product-carousel";
 
 type Params = { params: { id: string } };
 
@@ -132,7 +133,14 @@ export default async function ProductoPage({ params }: { params: { id: string } 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="md:col-span-1">
               <div className="rounded-lg overflow-hidden bg-gray-100 relative aspect-square">
-                <Image src={producto.imagenURL || "/placeholder.svg"} alt={producto.nombre} fill className="object-cover" />
+                {/* usar imagenes del producto: preferir imagenURLs si existen */}
+                <ProductCarousel
+                  images={Array.isArray(producto.imagenURLs) && producto.imagenURLs.length > 0 ? producto.imagenURLs : [producto.imagenURL || "/placeholder.svg"]}
+                  alt={producto.nombre}
+                  aspectClass="aspect-square"
+                  autoplay={true}
+                  intervalMs={3500}
+                />
               </div>
 
               <div className="mt-4 flex gap-2">
