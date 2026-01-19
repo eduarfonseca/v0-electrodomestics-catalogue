@@ -12,16 +12,30 @@ const ALLOWED_COLUMNS = [
   "disponible",
   "descripcion",
   "imagenURL",
+  "imagenURLs", // <--- añadido
 ] as const
-
 
 type AllowedKey = (typeof ALLOWED_COLUMNS)[number]
 
+function normalizeImagenURLsField(rawValue: any): string[] {
+  if (Array.isArray(rawValue)) return rawValue.map((x) => String(x).trim()).filter(Boolean)
+  if (typeof rawValue === "string") {
+    // puede venir como JSON string '["a","b"]' o como una sola URL
+    try {
+      const parsed = JSON.parse(rawValue)
+      if (Array.isArray(parsed)) return parsed.map((x) => String(x).trim()).filter(Boolean)
+    } catch {
+      // no es JSON: tratar como única URL
+      return [rawValue.trim()].filter(Boolean)
+    }
+  }
+  return []
+}
+
 function cleanAndMapPayload(raw: any) {
-  // raw puede ser { imagen } o { imagenURL }, podemos mapear ambos.
   const out: Record<string, any> = {}
 
-  // Si recibes un objeto con subclave products: { products: {...} } maneja eso en calling code.
+  // Copiar solamente keys permitidas (si vienen)
   for (const key of ALLOWED_COLUMNS) {
     if (raw[key] !== undefined) {
       out[key] = raw[key]
@@ -31,6 +45,28 @@ function cleanAndMapPayload(raw: any) {
   // Compatibilidad: si el cliente envía `imagen` en vez de `imagenURL`, mapearlo.
   if (out.imagenURL === undefined && raw.imagen !== undefined) {
     out.imagenURL = raw.imagen
+  }
+
+  // Normalizar imagenURLs:
+  // prioridad: raw.imagenURLs (array o json-string) -> si no, si hay imagenURL/imagen crear array con ese valor
+  const imagenURLsFromRaw = raw.imagenURLs !== undefined ? normalizeImagenURLsField(raw.imagenURLs) : []
+  if (imagenURLsFromRaw.length > 0) {
+    out.imagenURLs = imagenURLsFromRaw
+  } else {
+    // si no vino imagenURLs pero sí imagenURL o imagen, crear array con el primero
+    const candidate = out.imagenURL ?? raw.imagenURL ?? raw.imagen
+    if (candidate) out.imagenURLs = normalizeImagenURLsField(candidate)
+  }
+
+  // Asegurarnos imagenURL sea un string (preferir el primer elemento de imagenURLs si no se proporcionó)
+  if (!out.imagenURL) {
+    if (Array.isArray(out.imagenURLs) && out.imagenURLs.length > 0) {
+      out.imagenURL = String(out.imagenURLs[0])
+    } else {
+      out.imagenURL = out.imagenURL ? String(out.imagenURL) : undefined
+    }
+  } else {
+    out.imagenURL = String(out.imagenURL)
   }
 
   // Normalizar tipos simples
@@ -65,7 +101,6 @@ export async function POST(request: Request) {
     // Soportar: body es un producto, o { products: [...] }, o { product: {...} }
     let rawProduct: any
     if (body?.products && Array.isArray(body.products)) {
-      // si el cliente envía un array (no es lo usual para crear uno), tomar el primero
       rawProduct = body.products[0]
     } else if (body?.product) {
       rawProduct = body.product
@@ -82,8 +117,8 @@ export async function POST(request: Request) {
     console.debug("DEBUG - insert payload (clean):", JSON.stringify(clean))
 
     // Validaciones mínimas
-    if (!clean.nombre || clean.precioMinorista === undefined) {
-      return NextResponse.json({ error: "Nombre y precioMinorista son obligatorios" }, { status: 400 })
+    if (!clean.nombre || clean.nombre.toString().trim() === "") {
+      return NextResponse.json({ error: "Nombre es obligatorio" }, { status: 400 })
     }
 
     // Insertar en Supabase
@@ -92,11 +127,9 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Error saving product to Supabase:", error)
-      // devolver mensaje claro al cliente
       return NextResponse.json({ error: error.message || "Supabase insert failed" }, { status: 500 })
     }
 
-    // data es un array con el objeto insertado
     const created = Array.isArray(data) ? data[0] : data
 
     return NextResponse.json({ success: true, product: created })
@@ -116,7 +149,6 @@ export async function PUT(request: Request) {
 
     // Limpiar antes de actualizar para no enviar columnas inexistentes
     const clean = cleanAndMapPayload(product)
-    // eliminar id de payload update
     delete (clean as any).id
 
     const { data, error } = await supabase.from("Producto").update(clean).eq("id", product.id).select()
