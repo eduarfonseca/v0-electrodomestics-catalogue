@@ -16,13 +16,10 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { useProducts } from "@/contexts/products-context"
 import type { Electrodomestico } from "@/contexts/products-context"
 import PageSizeFilter from "@/components/shared/page-size-filter"
 import Loading from "@/app/admin/loading"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 import AdminProductForm, { NuevoElectrodomesticoState } from "@/components/admin/admin-product-form"
 
@@ -39,7 +36,6 @@ export default function AdminPanel() {
   } = useProducts()
 
   // ---- estado UI y formulario ----
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [busqueda, setBusqueda] = useState("")
   const [nuevoElectrodomestico, setNuevoElectrodomestico] = useState<any>({
     nombre: "",
@@ -57,7 +53,6 @@ export default function AdminPanel() {
   const [dialogAbierto, setDialogAbierto] = useState(false)
 
   // --- categoría: permitir elegir existente o crear nueva ---
-  const [isCustomCategory, setIsCustomCategory] = useState(false)
   const existingCategories = useMemo(() => {
     const set = new Set<string>()
     electrodomesticos.forEach((p: any) => {
@@ -151,7 +146,6 @@ export default function AdminPanel() {
       disponible: electrodomestico.disponible ?? true,
     })
     setEditandoId(electrodomestico.id)
-    setIsCustomCategory(!existingCategories.includes(electrodomestico.categoria ?? ""))
     setDialogAbierto(true)
   }
 
@@ -220,8 +214,8 @@ export default function AdminPanel() {
 
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Button variant="outline" size="sm" onClick={handleLogout} className="rounded-md bg-transparent hover:text-foreground dark:text-foreground hover:text-accent-foreground">
-              <LogOut className="h-4 w-4 mr-2" />
+            <Button variant="outline" size="sm" onClick={handleLogout} className="text-red-600 rounded-md bg-transparent hover:bg-transparent hover:text-red-600 hover:border-red-600 dark:hover:border-red-600">
+              <LogOut className="h-4 w-4 mr-2 text-red-600" />
               Cerrar Sesión
             </Button>
           </div>
@@ -293,7 +287,6 @@ export default function AdminPanel() {
                     descripcion: "",
                     disponible: true,
                   })
-                  setIsCustomCategory(false)
                   setDialogAbierto(true)
                 }}
                 className="dark:hover:text:opacity-90 hover:text-foreground dark:text-foreground hover:text-accent-foreground shadow-md dark:bg-accent"
@@ -358,6 +351,7 @@ export default function AdminPanel() {
               <AdminProductForm
                 initial={editandoId ? electrodomesticos.find((p) => p.id === editandoId) ?? {} : {}}
                 bucketName={"Fotos Catalogo"}
+                existingCategories={existingCategories}
                 onSubmit={async (payload: NuevoElectrodomesticoState) => {
                   const dbPayload = normalizePayload(payload)
 

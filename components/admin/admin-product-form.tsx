@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 
 // <-- exportamos el tipo para que lo puedas reusar en admin/page.tsx
 export type NuevoElectrodomesticoState = {
@@ -28,6 +29,7 @@ type Props = {
   onCancel?: () => void
   bucketName?: string
   maxFiles?: number
+  existingCategories?: string[]
 }
 
 export default function AdminProductForm({
@@ -36,6 +38,7 @@ export default function AdminProductForm({
   onCancel,
   bucketName = "Fotos Catalogo",
   maxFiles = 6,
+  existingCategories = [],
 }: Props) {
   const [form, setForm] = useState<NuevoElectrodomesticoState>({
     nombre: initial.nombre ?? "",
@@ -57,6 +60,7 @@ export default function AdminProductForm({
   const [uploading, setUploading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isCustomCategory, setIsCustomCategory] = useState(false)
 
   useEffect(() => {
     // generar previews locales para los archivos seleccionados
@@ -155,43 +159,89 @@ export default function AdminProductForm({
     <form onSubmit={handleSubmit} className="grid gap-4">
       {error && <div className="text-sm text-red-600">{error}</div>}
 
-      <div>
+      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
         <Label htmlFor="nombre">Nombre</Label>
-        <Input id="nombre" value={form.nombre ?? ""} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+        <textarea id="nombre" value={form.nombre ?? ""} onChange={(e) => setForm({ ...form, nombre: e.target.value })} className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
       </div>
 
-      <div>
+      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
         <Label htmlFor="marca">Marca</Label>
-        <Input id="marca" value={form.marca ?? ""} onChange={(e) => setForm({ ...form, marca: e.target.value })} />
+        <textarea id="marca" value={form.marca ?? ""} onChange={(e) => setForm({ ...form, marca: e.target.value })} className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
       </div>
 
-      <div>
-        <Label htmlFor="categoria">Categoría</Label>
-        <Input id="categoria" value={form.categoria ?? ""} onChange={(e) => setForm({ ...form, categoria: e.target.value })} />
+      <div className="grid gap-1">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="categoria" className="">Categoría</Label>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setIsCustomCategory((s) => !s)
+              setForm({ ...form, categoria: "" })
+            }}
+            className="text-s text-white shadow-md dark:text-white dark:bg-accent"
+          >
+            {isCustomCategory ? "Seleccionar existente" : "Crear nueva"}
+          </Button>
+        </div>
+        {isCustomCategory ? (
+          <Input
+            id="categoria"
+            value={form.categoria ?? ""}
+            onChange={(e) => setForm({ ...form, categoria: e.target.value })}
+            placeholder="Escribe una nueva categoría"
+            className="border-gray-200"
+          />
+        ) : (
+          <Select value={form.categoria ?? ""} onValueChange={(value) => setForm({ ...form, categoria: value })}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona una categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              {existingCategories.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <div>
+        <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
           <Label htmlFor="precioMinorista">Precio minorista</Label>
           <Input id="precioMinorista" type="number" value={String(form.precioMinorista ?? "")} onChange={(e) => setForm({ ...form, precioMinorista: e.target.value })} />
         </div>
-        <div>
-          <Label htmlFor="precioMayorista">Precio mayorista</Label>
-          <Input id="precioMayorista" type="number" value={String(form.precioMayorista ?? "")} onChange={(e) => setForm({ ...form, precioMayorista: e.target.value })} />
+        <div className="flex items-end">
+          <label className="inline-flex items-center">
+            <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+              <Label htmlFor="precioMinorista">Disponibilidad</Label>
+              <input type="checkbox" checked={!!form.disponible} onChange={(e) => setForm({ ...form, disponible: e.target.checked })} className="form-checkbox" />
+              <span className="ml-2">Disponible</span>
+            </div>
+          </label>
         </div>
       </div>
 
-      <div>
-        <Label htmlFor="cantidadMinimaMayorista">Cantidad mínima mayorista</Label>
-        <Input id="cantidadMinimaMayorista" type="number" value={String(form.cantidadMinimaMayorista ?? "")} onChange={(e) => setForm({ ...form, cantidadMinimaMayorista: e.target.value })} />
+      <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+          <Label htmlFor="precioMayorista">Precio mayorista</Label>
+          <Input id="precioMayorista" type="number" value={String(form.precioMayorista ?? "")} onChange={(e) => setForm({ ...form, precioMayorista: e.target.value })} />
+        </div>
+        <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+          <Label htmlFor="cantidadMinimaMayorista">Cantidad mínima mayorista</Label>
+          <Input id="cantidadMinimaMayorista" type="number" value={String(form.cantidadMinimaMayorista ?? "")} onChange={(e) => setForm({ ...form, cantidadMinimaMayorista: e.target.value })} />
+        </div>
       </div>
 
-      <div>
+      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
         <Label htmlFor="descripcion">Descripción</Label>
-        <Input id="descripcion" value={form.descripcion ?? ""} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} />
+        <textarea id="descripcion" value={form.descripcion ?? ""} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
       </div>
 
-      <div>
+      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
         <Label htmlFor="imagenes">Imágenes (máx {maxFiles})</Label>
         <input id="imagenes" type="file" accept="image/*" multiple onChange={handleFilesChange} />
         <div className="mt-2 grid grid-cols-3 gap-2">
@@ -203,13 +253,6 @@ export default function AdminProductForm({
           ))}
         </div>
         {uploading && <div className="mt-2 text-sm">Subiendo imágenes...</div>}
-      </div>
-
-      <div className="flex items-center gap-3">
-        <label className="inline-flex items-center">
-          <input type="checkbox" checked={!!form.disponible} onChange={(e) => setForm({ ...form, disponible: e.target.checked })} className="form-checkbox" />
-          <span className="ml-2">Disponible</span>
-        </label>
       </div>
 
       <div className="flex gap-2 justify-end">

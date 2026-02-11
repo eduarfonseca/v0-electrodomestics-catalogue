@@ -81,7 +81,7 @@ export default function ProductTable({
               <TableCell>
                 <Badge
                   variant={p.disponible ? "default" : "secondary"}
-                  className={p.disponible ? "bg-green-100 text-green-800" : "bg-red-50 text-red-600"}
+                  className={p.disponible ? "bg-green-100 dark:bg-[#dcfce7]/20 text-green-600" : "bg-red-50 dark:bg-[#dc2626]/20 text-red-600"}
                 >
                   {p.disponible ? "Disponible" : "Agotado"}
                 </Badge>
@@ -98,9 +98,9 @@ export default function ProductTable({
                         onEdit?.(p)
                       }}
                       aria-label={`Editar ${p.nombre}`}
-                      className="dark:bg-accent dark:hover:text:opacity-90"
+                      className=" bg-yellow-100/60 hover:border-yellow-600 hover:bg-yellow-100/60 dark:bg-[#eab308]/20 dark:hover:bg-[#eab308]/20 dark:hover:border-yellow-600"
                     >
-                      <Pencil className="h-4 w-4" />
+                      <Pencil className="h-4 w-4 text-yellow-600" />
                     </Button>
 
 
@@ -111,10 +111,10 @@ export default function ProductTable({
                         e.stopPropagation()
                         onDelete?.(p.id)
                       }}
-                      className="dark:hover:text:opacity-90 dark:bg-accent"
+                      className=" bg-red-100/60 hover:border-red-600 hover:bg-red-100/60 dark:bg-[#dc2626]/20 dark:hover:bg-[#dc2626]/20 dark:hover:border-red-600"
                       aria-label={`Eliminar ${p.nombre}`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4 text-red-600"/>
                     </Button>
                   </div>
                 </TableCell>
