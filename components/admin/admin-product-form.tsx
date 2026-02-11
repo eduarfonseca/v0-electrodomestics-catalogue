@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 
-// <-- exportamos el tipo para que lo puedas reusar en admin/page.tsx
+
 export type NuevoElectrodomesticoState = {
   nombre?: string
   marca?: string
@@ -40,14 +40,15 @@ export default function AdminProductForm({
   maxFiles = 6,
   existingCategories = [],
 }: Props) {
+
   const [form, setForm] = useState<NuevoElectrodomesticoState>({
     nombre: initial.nombre ?? "",
     marca: initial.marca ?? "",
     categoria: initial.categoria ?? "",
-    precio: initial.precio ?? 0,
-    precioMinorista: initial.precioMinorista ?? 0,
-    precioMayorista: initial.precioMayorista ?? 0,
-    cantidadMinimaMayorista: initial.cantidadMinimaMayorista ?? 0,
+    precio: initial.precio ?? "",
+    precioMinorista: initial.precioMinorista ?? "",
+    precioMayorista: initial.precioMayorista ?? "",
+    cantidadMinimaMayorista: initial.cantidadMinimaMayorista ?? "",
     // inicializamos imagenURLs tomando imagenURLs si existe; si no, usamos imagenURL si hay
     imagenURLs: initial.imagenURLs ?? (initial.imagenURL ? [initial.imagenURL] : []),
     imagenURL: initial.imagenURL ?? (initial.imagenURLs && initial.imagenURLs[0]) ?? undefined,
