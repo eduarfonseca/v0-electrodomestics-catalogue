@@ -79,10 +79,17 @@ export default function AdminProductForm({
     }
     const maxMB = 5
     for (const f of selected) {
-      if (!f.type.startsWith("image/")) return setError("Solo se permiten imágenes")
-      if (f.size > maxMB * 1024 * 1024) return setError(`Cada imagen debe ser menor a ${maxMB}MB`)
+      if (!f.type.startsWith("image/")) {
+        setError("Solo se permiten imágenes")
+        return
+      }
+      if (f.size > maxMB * 1024 * 1024) {
+        setError(`Cada imagen debe ser menor a ${maxMB}MB`)
+        return
+      }
     }
     setFiles((cur) => [...cur, ...selected])
+    e.currentTarget.value = ""
   }
 
   async function uploadFilesToServer(filesToUpload: File[]) {
@@ -124,6 +131,73 @@ export default function AdminProductForm({
     }
   }
 
+  // --- Helpers para inputs numéricos en tiempo real ---
+  function allowDecimalKey(e: React.KeyboardEvent<HTMLInputElement>) {
+    // allow digits, one decimal separator ('.' or ','), navigation keys, backspace, delete, tab, enter
+    const allowed = [
+      "Backspace",
+      "Delete",
+      "ArrowLeft",
+      "ArrowRight",
+      "Tab",
+      "Enter",
+      "Home",
+      "End",
+    ]
+    if (allowed.includes(e.key)) return
+    // allow ctrl/cmd combos (copy/paste/select)
+    if (e.ctrlKey || e.metaKey) return
+    const isDigit = /^[0-9]$/.test(e.key)
+    const isSeparator = e.key === "." || e.key === ","
+    if (isDigit) return
+    if (isSeparator) {
+      // if input already contains '.' or ',' do not allow another separator
+      const val = (e.target as HTMLInputElement).value
+      if (val.includes(".") || val.includes(",")) {
+        e.preventDefault()
+        return
+      }
+      return
+    }
+    e.preventDefault()
+  }
+
+  function allowIntegerKey(e: React.KeyboardEvent<HTMLInputElement>) {
+    const allowed = [
+      "Backspace",
+      "Delete",
+      "ArrowLeft",
+      "ArrowRight",
+      "Tab",
+      "Enter",
+      "Home",
+      "End",
+    ]
+    if (allowed.includes(e.key)) return
+    if (e.ctrlKey || e.metaKey) return
+    const isDigit = /^[0-9]$/.test(e.key)
+    if (!isDigit) e.preventDefault()
+  }
+
+  function sanitizeDecimalInput(val: string) {
+    // keep digits and at most one separator (either '.' or ',')
+    let sanitized = val.replace(/[^0-9.,]/g, "")
+    // if there are multiple separators, keep the first and remove the rest
+    const firstSepIndex = Math.max(sanitized.indexOf("."), sanitized.indexOf(","))
+    if (firstSepIndex !== -1) {
+      const before = sanitized.slice(0, firstSepIndex + 1)
+      const after = sanitized.slice(firstSepIndex + 1).replace(/[.,]/g, "")
+      sanitized = before + after
+    }
+    return sanitized
+  }
+
+  function sanitizeIntegerInput(val: string) {
+    return val.replace(/\D/g, "")
+  }
+
+  // --- Fin helpers ---
+
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault()
     setError(null)
@@ -135,14 +209,31 @@ export default function AdminProductForm({
 
       const combined = [...(form.imagenURLs ?? []), ...newUrls]
 
+      // Normalizar decimales: reemplazar coma por punto antes de convertir
+      const minoristaNumber =
+        String(form.precioMinorista ?? "")
+          .trim()
+          .replace(",", ".") === ""
+          ? 0
+          : Number(String(form.precioMinorista ?? "").replace(",", "."))
+      const mayoristaNumber =
+        String(form.precioMayorista ?? "")
+          .trim()
+          .replace(",", ".") === ""
+          ? 0
+          : Number(String(form.precioMayorista ?? "").replace(",", "."))
+      const cantidadMinimaNumber =
+        String(form.cantidadMinimaMayorista ?? "").trim() === ""
+          ? 0
+          : Number(String(form.cantidadMinimaMayorista ?? "").replace(/\D/g, ""))
+
       const payload: NuevoElectrodomesticoState = {
         ...form,
         imagenURLs: combined,
         imagenURL: combined[0] ?? form.imagenURL,
-        precioMinorista: form.precioMinorista === "" ? 0 : Number(form.precioMinorista ?? 0),
-        precioMayorista: form.precioMayorista === "" ? 0 : Number(form.precioMayorista ?? 0),
-        cantidadMinimaMayorista:
-          form.cantidadMinimaMayorista === "" ? 0 : Number(form.cantidadMinimaMayorista ?? 0),
+        precioMinorista: isNaN(minoristaNumber) ? 0 : minoristaNumber,
+        precioMayorista: isNaN(mayoristaNumber) ? 0 : mayoristaNumber,
+        cantidadMinimaMayorista: isNaN(cantidadMinimaNumber) ? 0 : cantidadMinimaNumber,
         disponible: !!form.disponible,
       }
 
@@ -156,22 +247,39 @@ export default function AdminProductForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-4">
-      {error && <div className="text-sm text-red-600">{error}</div>}
+    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto p-4 sm:p-6">
+      {error && <div className="mb-3 text-sm text-red-600">{error}</div>}
 
-      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+      {/* Nombre */}
+      <div className="mb-4">
         <Label htmlFor="nombre">Nombre</Label>
-        <textarea id="nombre" value={form.nombre ?? ""} onChange={(e) => setForm({ ...form, nombre: e.target.value })} className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
+        <textarea
+          id="nombre"
+          rows={2}
+          value={form.nombre ?? ""}
+          onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+          className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+          placeholder="Ej: Lavadora Automática 7.5 kg"
+        />
       </div>
 
-      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+      {/* Marca */}
+      <div className="mb-4">
         <Label htmlFor="marca">Marca</Label>
-        <textarea id="marca" value={form.marca ?? ""} onChange={(e) => setForm({ ...form, marca: e.target.value })} className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
+        <textarea
+          id="marca"
+          rows={1}
+          value={form.marca ?? ""}
+          onChange={(e) => setForm({ ...form, marca: e.target.value })}
+          className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+          placeholder="Ej: Milexus"
+        />
       </div>
 
-      <div className="grid gap-1">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="categoria" className="">Categoría</Label>
+      {/* Categoría + botón alternar */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <Label htmlFor="categoria">Categoría</Label>
           <Button
             type="button"
             variant="outline"
@@ -180,84 +288,210 @@ export default function AdminProductForm({
               setIsCustomCategory((s) => !s)
               setForm({ ...form, categoria: "" })
             }}
-            className="text-s text-white shadow-md dark:text-white dark:bg-accent"
+            className="h-8 min-h-8 text-sm"
           >
             {isCustomCategory ? "Seleccionar existente" : "Crear nueva"}
           </Button>
         </div>
+
         {isCustomCategory ? (
           <Input
             id="categoria"
             value={form.categoria ?? ""}
             onChange={(e) => setForm({ ...form, categoria: e.target.value })}
             placeholder="Escribe una nueva categoría"
-            className="border-gray-200"
+            className="w-full"
           />
         ) : (
-          <Select value={form.categoria ?? ""} onValueChange={(value) => setForm({ ...form, categoria: value })}>
-            <SelectTrigger>
+          <Select
+            value={form.categoria ?? ""}
+            onValueChange={(value) => setForm({ ...form, categoria: value })}
+          >
+            <SelectTrigger className="w-full h-12">
               <SelectValue placeholder="Selecciona una categoría" />
             </SelectTrigger>
             <SelectContent>
-              {existingCategories.map((cat) => (
-                <SelectItem key={cat} value={cat}>
-                  {cat}
-                </SelectItem>
-              ))}
+              {existingCategories.length === 0 ? (
+                <div className="px-4 py-2 text-sm text-muted-foreground">No hay categorías</div>
+              ) : (
+                existingCategories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>
+                    {cat}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+      {/* Precios / disponibilidad SECTION - ahora con flex que mantiene inputs lado a lado y los reduce si hace falta */}
+      <div className="mb-4 flex gap-3 flex-wrap">
+        <div className="flex-1 min-w-[140px]">
           <Label htmlFor="precioMinorista">Precio minorista</Label>
-          <Input id="precioMinorista" type="number" value={String(form.precioMinorista ?? "")} onChange={(e) => setForm({ ...form, precioMinorista: e.target.value })} />
+          <input
+            id="precioMinorista"
+            // usamos text + inputMode para controlar teclado en móviles
+            type="text"
+            inputMode="decimal"
+            value={String(form.precioMinorista ?? "")}
+            onKeyDown={allowDecimalKey}
+            onPaste={(ev) => {
+              ev.preventDefault()
+              const pasted = (ev.clipboardData || (window as any).clipboardData).getData("text")
+              const clean = sanitizeDecimalInput(pasted)
+              setForm((cur) => ({ ...cur, precioMinorista: clean }))
+            }}
+            onChange={(e) => {
+              const cleaned = sanitizeDecimalInput(e.target.value)
+              setForm((cur) => ({ ...cur, precioMinorista: cleaned }))
+            }}
+            className="mt-1 h-12 w-full rounded-md border px-3 py-2 text-base"
+            placeholder="0"
+            aria-label="Precio minorista"
+          />
         </div>
-        <div className="flex items-end">
-          <label className="inline-flex items-center">
-            <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
-              <Label htmlFor="precioMinorista">Disponibilidad</Label>
-              <input type="checkbox" checked={!!form.disponible} onChange={(e) => setForm({ ...form, disponible: e.target.checked })} className="form-checkbox" />
-              <span className="ml-2">Disponible</span>
-            </div>
-          </label>
-        </div>
-      </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+        <div className="flex-1 min-w-[120px]">
           <Label htmlFor="precioMayorista">Precio mayorista</Label>
-          <Input id="precioMayorista" type="number" value={String(form.precioMayorista ?? "")} onChange={(e) => setForm({ ...form, precioMayorista: e.target.value })} />
+          <input
+            id="precioMayorista"
+            type="text"
+            inputMode="decimal"
+            value={String(form.precioMayorista ?? "")}
+            onKeyDown={allowDecimalKey}
+            onPaste={(ev) => {
+              ev.preventDefault()
+              const pasted = (ev.clipboardData || (window as any).clipboardData).getData("text")
+              const clean = sanitizeDecimalInput(pasted)
+              setForm((cur) => ({ ...cur, precioMayorista: clean }))
+            }}
+            onChange={(e) => {
+              const cleaned = sanitizeDecimalInput(e.target.value)
+              setForm((cur) => ({ ...cur, precioMayorista: cleaned }))
+            }}
+            className="mt-1 h-12 w-full rounded-md border px-3 py-2 text-base"
+            placeholder="0"
+            aria-label="Precio mayorista"
+          />
         </div>
-        <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+
+        <div className="flex-1 min-w-[140px]">
           <Label htmlFor="cantidadMinimaMayorista">Cantidad mínima mayorista</Label>
-          <Input id="cantidadMinimaMayorista" type="number" value={String(form.cantidadMinimaMayorista ?? "")} onChange={(e) => setForm({ ...form, cantidadMinimaMayorista: e.target.value })} />
+          <input
+            id="cantidadMinimaMayorista"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={String(form.cantidadMinimaMayorista ?? "")}
+            onKeyDown={allowIntegerKey}
+            onPaste={(ev) => {
+              ev.preventDefault()
+              const pasted = (ev.clipboardData || (window as any).clipboardData).getData("text")
+              const clean = sanitizeIntegerInput(pasted)
+              setForm((cur) => ({ ...cur, cantidadMinimaMayorista: clean }))
+            }}
+            onChange={(e) => {
+              const cleaned = sanitizeIntegerInput(e.target.value)
+              setForm((cur) => ({ ...cur, cantidadMinimaMayorista: cleaned }))
+            }}
+            className="mt-1 h-12 w-full rounded-md border px-3 py-2 text-base"
+            placeholder="0"
+            aria-label="Cantidad mínima mayorista"
+          />
+        </div>
+
+        <div className="min-w-[120px] flex items-end">
+          <div>
+            <Label className="block">Disponibilidad</Label>
+            <div className="mt-1 flex items-center">
+              <input
+                id="disponible"
+                type="checkbox"
+                checked={!!form.disponible}
+                onChange={(e) => setForm({ ...form, disponible: e.target.checked })}
+                className="h-5 w-5 rounded"
+              />
+              <label htmlFor="disponible" className="ml-2 text-sm select-none">
+                Disponible
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
+      {/* Descripción */}
+      <div className="mb-4">
         <Label htmlFor="descripcion">Descripción</Label>
-        <textarea id="descripcion" value={form.descripcion ?? ""} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" />
+        <textarea
+          id="descripcion"
+          rows={3}
+          value={form.descripcion ?? ""}
+          onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
+          className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive"
+          placeholder="Descripción breve del producto..."
+        />
       </div>
 
-      <div className="space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6">
-        <Label htmlFor="imagenes">Imágenes (máx {maxFiles})</Label>
-        <input id="imagenes" type="file" accept="image/*" multiple onChange={handleFilesChange} />
-        <div className="mt-2 grid grid-cols-3 gap-2">
+      {/* Imágenes */}
+      <div className="mb-4">
+        <Label>Imágenes (máx {maxFiles})</Label>
+
+        <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <label
+            htmlFor="imagenes"
+            className="inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm cursor-pointer hover:bg-gray-50"
+            role="button"
+          >
+            Seleccionar imágenes
+            <span className="ml-2 text-xs text-muted-foreground">(.jpg, .png)</span>
+          </label>
+
+          <div className="text-sm text-muted-foreground">
+            {form.imagenURLs?.length ?? 0} guardadas · {files.length} nuevas
+          </div>
+
+          <input
+            id="imagenes"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFilesChange}
+            className="sr-only"
+          />
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 sm:grid-cols-6 gap-2">
           {previews.map((p, i) => (
-            <div key={p + i} className="relative border rounded p-1">
-              <img src={p} alt={`preview-${i}`} className="object-contain h-24 w-full rounded" />
-              <button type="button" onClick={() => handleRemovePreview(i)} className="absolute top-1 right-1 bg-white/80 rounded px-1 text-xs">Eliminar</button>
+            <div
+              key={p + i}
+              className="relative rounded overflow-hidden border bg-white flex items-center justify-center"
+              style={{ minHeight: 64 }}
+            >
+              <img src={p} alt={`preview-${i}`} className="object-cover w-full h-20" />
+              <button
+                type="button"
+                onClick={() => handleRemovePreview(i)}
+                className="absolute top-1 right-1 bg-white/90 rounded px-1 text-xs"
+                aria-label={`Eliminar imagen ${i + 1}`}
+              >
+                Eliminar
+              </button>
             </div>
           ))}
         </div>
+
         {uploading && <div className="mt-2 text-sm">Subiendo imágenes...</div>}
       </div>
 
-      <div className="flex gap-2 justify-end">
-        <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>Cancelar</Button>
-        <Button type="submit" disabled={isSubmitting}>{isSubmitting ? "Guardando..." : "Guardar"}</Button>
+      {/* Acciones */}
+      <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-end">
+        <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting} className="w-full sm:w-auto">
+          Cancelar
+        </Button>
+        <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
+          {isSubmitting ? "Guardando..." : "Guardar"}
+        </Button>
       </div>
     </form>
   )

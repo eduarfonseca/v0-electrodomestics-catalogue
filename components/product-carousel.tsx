@@ -132,7 +132,9 @@ export default function ProductCarousel({
             onClick={(e) => { e.stopPropagation(); prev(); pause(); setTimeout(resume, 400); }}
             className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 shadow-md hover:bg-white"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 dark:text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"/>
+            </svg>
           </button>
 
           <button
@@ -141,20 +143,22 @@ export default function ProductCarousel({
             onClick={(e) => { e.stopPropagation(); next(); pause(); setTimeout(resume, 400); }}
             className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 shadow-md hover:bg-white"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 dark:text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+            </svg>
           </button>
         </>
       )}
 
       {/* Indicators */}
       {showIndicators && imgs.length > 1 && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-2 z-20 flex gap-2">
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-2 z-20 flex gap-2 dark:text-black">
           {imgs.map((_, i) => (
             <button
               key={i}
               aria-label={`Ir a la imagen ${i + 1}`}
               onClick={(e) => { e.stopPropagation(); goTo(i); pause(); setTimeout(resume, 400); }}
-              className={`w-2 h-2 rounded-full ${i === index ? "bg-foreground" : "bg-white/70 border border-white/40"}`}
+              className={`w-2 h-2 rounded-full dark:text-black ${i === index ? "bg-black " : "bg-white/70 border border-white/40"}`}
               title={`Imagen ${i + 1}`}
             />
           ))}
