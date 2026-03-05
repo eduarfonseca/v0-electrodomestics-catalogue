@@ -9,7 +9,7 @@ export default function CatalogHeader() {
             <div className="container mx-auto px-6 py-4 flex items-center justify-between gap-1">
                 <div>
                     <h1 className="text-2xl font-medium text-foreground">Electrodomésticos</h1>
-                    <p className="text-muted-foreground text-sm mt-1">Todos los productos vienen con factura y 3 meses de garantía</p>
+                    <p className="text-muted-foreground text-sm mt-1">Todos los productos incluyen factura y garantía</p>
                 </div>
                 <div className="flex items-center gap-2">
                     <ThemeToggle />

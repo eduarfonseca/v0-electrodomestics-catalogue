@@ -113,24 +113,24 @@ export default function ProductCard({
       </div>
 
       {/* Header con título y subtítulo (tamaños reducidos) */}
-      <CardHeader className="pb-1 px-4">
+      <CardHeader className="px-4">
         <CardTitle
           className="font-semibold text-foreground line-clamp-2 leading-tight"
           style={{ fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)" }}
         >
           {product.nombre}
         </CardTitle>
-
+{/* 
         <CardDescription
           className="text-muted-foreground"
           style={{ fontSize: "clamp(0.75rem, 0.95vw, 0.85rem)" }}
         >
           {product.marca} • {product.categoria}
-        </CardDescription>
+        </CardDescription> */}
       </CardHeader>
 
       {/* Contenido: precios con escala reducida para no dominar la tarjeta */}
-      <CardContent className="pt-0 pb-1 px-4">
+      <CardContent className="pt-0 px-4">
         <div className="grid grid-cols-2 gap-3 items-start">
           <div className="space-y-0 text-muted-foreground">
             <div className="font-medium" style={{ fontSize: "clamp(0.72rem, 0.9vw, 0.85rem)" }}>

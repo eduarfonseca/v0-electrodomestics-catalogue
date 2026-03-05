@@ -110,17 +110,17 @@ export default async function ProductoPage({ params }: { params: { id: string } 
       <CatalogHeader />
 
       {/* main ocupa el espacio disponible */}
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-6">
         <BackButton />
 
-        <div className="container mx-auto gap-8 mb-12">
-          <div className="mb-6">
+        <div className="container mx-auto gap-8 mb-2">
+          <div className="mb-5">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <h1 className="text-3xl font-bold">{producto.nombre}</h1>
-                <p className="text-sm text-muted-foreground mt-1">
+                {/* <p className="text-sm text-muted-foreground mt-1">
                   {producto.marca} • {producto.categoria}
-                </p>
+                </p> */}
               </div>
 
               <div className="flex items-center gap-3">
@@ -143,7 +143,7 @@ export default async function ProductoPage({ params }: { params: { id: string } 
                 />
               </div>
 
-              <div className="mt-4 flex gap-2">
+              <div className="mt-5 flex gap-2">
                 <Badge variant="brand" className="text-sm ">
                   {producto.marca}
                 </Badge>
@@ -153,21 +153,21 @@ export default async function ProductoPage({ params }: { params: { id: string } 
               </div>
             </div>
 
-            <div className="md:col-span-2 space-y-6">
+            <div className="md:col-span-2 space-y-5">
               <div>
                 <div className="text-sm text-muted-foreground">Precio Minorista</div>
-                <div className="text-3xl font-bold text-blue-600">${producto.precioMinorista}</div>
+                <div className="text-3xl font-bold text-green-700">${producto.precioMinorista}</div>
               </div>
 
               <div>
                 <div className="text-sm text-muted-foreground">
                   Precio Mayorista (mínimo {producto.cantidadMinimaMayorista} uds.)
                 </div>
-                <div className="text-2xl font-bold text-green-600">${producto.precioMayorista}</div>
+                <div className="text-2xl font-bold text-blue-700">${producto.precioMayorista}</div>
               </div>
 
-              <section className="pt-4 border-t">
-                <h2 className="text-lg font-semibold mb-2">Descripción</h2>
+              <section className="pt-2 border-t">
+                <h2 className="text-lg font-semibold mb-1">Descripción</h2>
                 <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{producto.descripcion}</p>
               </section>
             </div>
