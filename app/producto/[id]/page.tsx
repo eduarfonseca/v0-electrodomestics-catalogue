@@ -15,7 +15,7 @@ type Params = { params: { id: string } };
 
 export const dynamic = "force-dynamic";
 
-const DEFAULT_SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://v0-electrodomesticoscatalogue.vercel.app";
+const DEFAULT_SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://electrodomesticoscerro.vercel.app";
 
 function absoluteUrl(pathOrUrl?: string) {
   if (!pathOrUrl) return undefined;

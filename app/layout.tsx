@@ -13,23 +13,24 @@ const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-int
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], display: "swap", variable: "--font-space-grotesk" })
 const dmSans = DM_Sans({ subsets: ["latin"], display: "swap", variable: "--font-dm-sans" })
 
-const SITE_URL = "https://v0-electrodomesticoscatalogue.vercel.app/"
+const SITE_URL = "https://electrodomesticoscerro.vercel.app/"
 const OG_IMAGE =
   "https://yzjvywcplllhsqqcfsyb.supabase.co/storage/v1/object/public/Fotos%20Catalogo/Presentation%20Image.jpg"
 
-  
+
 export const metadata: Metadata = {
-  title: "Catálogo de Electrodomésticos",
-  description: "Date la oportunidad de mejorar tu estilo de vida con nuestros electrodomésticos de calidad.",
+  title: "Catálogo de Electrodomésticos - Electrodomésticos Cerro",
+  description: "Catálogo completo de electrodomésticos de calidad. Encuentra neveras, refrigeradores, lavadoras, microondas y más. Electrodomésticos Cerro - Tu tienda de confianza.",
+  keywords: ["electrodomésticos", "electrodomésticos cerro", "catálogo electrodomésticos", "neveras", "refrigeradores", "lavadoras", "microondas", "electrodomésticos cuba"],
   metadataBase: new URL(SITE_URL),
   verification: {
     google: "V_z5TSbwRN8XJK_aW61Kv0cs4bHv0a0zaO4cX1Wo628",
   },
   openGraph: {
-    title: "Catálogo de Electrodomésticos",
-    description: "Date la oportunidad de mejorar tu estilo de vida con nuestros electrodomésticos de calidad.",
+    title: "Catálogo de Electrodomésticos - Electrodomésticos Cerro",
+    description: "Catálogo completo de electrodomésticos de calidad. Encuentra neveras, refrigeradores, lavadoras, microondas y más.",
     url: SITE_URL,
-    siteName: "Catálogo de Electrodomésticos",
+    siteName: "Electrodomésticos Cerro",
     images: [
       {
         url: OG_IMAGE,
@@ -43,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Catálogo de Electrodomésticos",
-    description: "Date la oportunidad de mejorar tu estilo de vida con nuestros electrodomésticos de calidad.",
+    title: "Catálogo de Electrodomésticos - Electrodomésticos Cerro",
+    description: "Catálogo completo de electrodomésticos de calidad. Encuentra neveras, refrigeradores, lavadoras, microondas y más.",
     images: [OG_IMAGE],
   },
 }
