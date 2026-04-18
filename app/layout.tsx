@@ -6,7 +6,9 @@ import { Inter, Space_Grotesk, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/contexts/auth-context"
 import { ProductsProvider } from "@/contexts/products-context"
+import { CartProvider } from "@/contexts/cart-context"
 import { ThemeProvider } from "@/components/theme-provider"
+import { CartFloating } from "@/components/cart/cart-floating"
 
 // carga Inter para usarla como fuente global (SSR-friendly)
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" })
@@ -70,7 +72,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme={defaultTheme} enableSystem={enableSystem} disableTransitionOnChange>
           <AuthProvider>
-            <ProductsProvider>{children}</ProductsProvider>
+            <ProductsProvider>
+              <CartProvider>
+                {children}
+                <CartFloating />
+              </CartProvider>
+            </ProductsProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

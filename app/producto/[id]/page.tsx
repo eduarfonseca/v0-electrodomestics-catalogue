@@ -10,6 +10,7 @@ import CatalogHeader from "@/components/catalog-header";
 import StoreInfo from "@/components/store-info";
 import BackButton from "@/components/back-button";
 import ProductCarousel from "@/components/product-carousel";
+import { AddToCartClient } from "@/components/cart/add-to-cart-client";
 
 type Params = { params: { id: string } };
 
@@ -170,6 +171,8 @@ export default async function ProductoPage({ params }: { params: { id: string } 
                 <h2 className="text-lg font-semibold mb-1">Descripción</h2>
                 <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{producto.descripcion}</p>
               </section>
+
+              <AddToCartClient producto={producto} />
             </div>
           </div>
         </div>
