@@ -17,12 +17,13 @@ const SITE_URL = "https://v0-electrodomesticoscatalogue.vercel.app/"
 const OG_IMAGE =
   "https://yzjvywcplllhsqqcfsyb.supabase.co/storage/v1/object/public/Fotos%20Catalogo/Presentation%20Image.jpg"
 
+  
 export const metadata: Metadata = {
   title: "Catálogo de Electrodomésticos",
   description: "Date la oportunidad de mejorar tu estilo de vida con nuestros electrodomésticos de calidad.",
   metadataBase: new URL(SITE_URL),
   verification: {
-    google: "ie0CRKPbOxnpLsY-_Ofa1xMixZvid0mT6FJQnYcKI2s",
+    google: "V_z5TSbwRN8XJK_aW61Kv0cs4bHv0a0zaO4cX1Wo628",
   },
   openGraph: {
     title: "Catálogo de Electrodomésticos",
