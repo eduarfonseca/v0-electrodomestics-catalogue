@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   title: "Catálogo de Electrodomésticos",
   description: "Date la oportunidad de mejorar tu estilo de vida con nuestros electrodomésticos de calidad.",
   metadataBase: new URL(SITE_URL),
+  verification: {
+    google: "ie0CRKPbOxnpLsY-_Ofa1xMixZvid0mT6FJQnYcKI2s",
+  },
   openGraph: {
     title: "Catálogo de Electrodomésticos",
     description: "Date la oportunidad de mejorar tu estilo de vida con nuestros electrodomésticos de calidad.",
