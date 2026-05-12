@@ -120,13 +120,13 @@ export default function ProductCard({
         >
           {product.nombre}
         </CardTitle>
-{/* 
+
         <CardDescription
           className="text-muted-foreground"
-          style={{ fontSize: "clamp(0.75rem, 0.95vw, 0.85rem)" }}
+          style={{ fontSize: "clamp(0.85rem, 1.1vw, 0.95rem)" }}
         >
-          {product.marca} • {product.categoria}
-        </CardDescription> */}
+          {product.marca}
+        </CardDescription>
       </CardHeader>
 
       {/* Contenido: precios con escala reducida para no dominar la tarjeta */}
